@@ -1,1 +1,1 @@
-# SC2002-Project
+# SC2002-CAM-App-Project
