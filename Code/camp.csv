@@ -1,0 +1,4 @@
+Name,startDate,endDate,regDeadline,userGroup,location,totalSlots,campCommSlots,description,staffIC,attendees,campComms,visibility,withdrawallist
+UOC,23/11/2023,22/1/2024,23/12/2023,NTU,HIVE,60,10,A,ahmad,tan;kee;chiong;maple;syrup;is;great,horse;cat;dog;chicken,1,lee;derek;max
+SCSE,22/1/2024,2/2/2024,30/1/2024,SCSE,ARC,60,9,B,tan,I;love;java;it;rocks,tutrle;shark;salmon,1,macdonald;kfc;pezzo;spizza
+Sports,2/2/2024,13/2/2024,10/2/2024,NTU,FIELD,60,8,C,lee,,,0,
