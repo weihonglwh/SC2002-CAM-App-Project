@@ -24,7 +24,7 @@ public class StudentStorage extends Storage {
     
     public StudentAccount getData(String s) {
         for (StudentAccount st : students) {
-            if (st.getUsername().equals(s)) {
+            if (st.getUserId().equals(s)) {
                 return st;
             }
         }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
     Col 2: Message
     Col 3: Response
     Col 4: Responder
+    Col 5: Camp Name
 */
 
 public class CSVEnquiryReader extends CSVReader{
@@ -18,8 +19,10 @@ public class CSVEnquiryReader extends CSVReader{
         try {
             for (String enquiry : enquiryData) { // Iterate through each line
                 String[] enquiryDetails = enquiry.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1); // regex to prevent splitting commas in messages
-                // Check if id/sender/message is empty
-                if (enquiryDetails[0].isBlank() || enquiryDetails[1].isBlank() || enquiryDetails[2].trim().replace("\"", "").isBlank()) {
+                // Check if id/sender/message/camp name is empty
+                if (enquiryDetails[0].isBlank() || enquiryDetails[1].isBlank()
+                        || enquiryDetails[2].trim().replace("\"", "").isBlank()
+                        || enquiryDetails[5].trim().replace("\"", "").isBlank()) {
                     throw new Exception();
                 }
                 // Trim to remove whitespace
@@ -28,8 +31,9 @@ public class CSVEnquiryReader extends CSVReader{
                 String message = enquiryDetails[2].trim().replace("\"", ""); // Remove quotes from message
                 String response = enquiryDetails[3].trim().replace("\"", ""); // Response can be null initially
                 String responder = enquiryDetails[4].trim(); // Responder can be null initially
-                System.out.println("Adding enquiry: " + id + " " + sender + " " + message + " " + response + " " + responder);
-                s.addItem(new Enquiry(sender, message, id, response, responder));
+                String campName = enquiryDetails[5].trim();
+                //System.out.println("Adding enquiry: " + id + " " + sender + " " + message + " " + response + " " + responder + " " + campName);
+                s.addItem(new Enquiry(sender, message, id, response, responder, campName));
             }
         }
         catch (Exception e) {

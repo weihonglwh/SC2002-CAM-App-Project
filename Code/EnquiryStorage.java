@@ -8,7 +8,7 @@ public class EnquiryStorage extends Storage {
         enquiries = new ArrayList<Enquiry>();
     }
 
-    public void printData() {
+    public void printData(String campName) {
         for (Enquiry e : enquiries) {
             System.out.println("the sender for this enquiry is " + e.getSender());
             System.out.println("The enquiry id for this enquiry is " + e.getEnquiryId());

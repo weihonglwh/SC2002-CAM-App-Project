@@ -42,5 +42,5 @@ public abstract class UserAccount {
 
     public void setFaculty(String faculty){
         this.faculty = faculty;
-    }    
+    };
 }

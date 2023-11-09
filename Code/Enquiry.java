@@ -4,21 +4,24 @@ public class Enquiry {
     private String enquiryID;
     private String response;
     private String responder;
+    private String campName;
 
-    public Enquiry(String sender, String message, String enquiryID) {
+    public Enquiry(String sender, String message, String enquiryID, String campName) {
         this.sender = sender;
         this.message = message;
         this.enquiryID = enquiryID;
         this.response = null;
         this.responder = null;
+        this.campName = campName;
     }
 
-    public Enquiry(String sender, String message, String enquiryID, String response, String responder) {
+    public Enquiry(String sender, String message, String enquiryID, String response, String responder, String campName) {
         this.sender = sender;
         this.message = message;
         this.enquiryID = enquiryID;
         this.response = response;
         this.responder = responder;
+        this.campName = campName;
     }
 
     public String getEnquiryId(){
@@ -61,4 +64,8 @@ public class Enquiry {
     public void setResponder(String responder) {
         this.responder = responder;
     }
+
+    public String getCampName() { return campName; }
+
+    public void setCampName(String campName) { this.campName = campName; }
 }

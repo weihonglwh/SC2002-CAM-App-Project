@@ -17,7 +17,9 @@ public class Camp {
     private boolean visibility;
     private ArrayList<String> withdrawalList;
 
-    public Camp(String name, Date startDate, Date endDate, Date regDeadline, String userGroup, String location, int totalSlots, int campCommSlots, String description, String staffIC, boolean visibility) {
+    public Camp(String name, Date startDate, Date endDate, Date regDeadline, String userGroup,
+                String location, int totalSlots, int campCommSlots, String description,
+                String staffIC, boolean visibility) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -28,7 +30,33 @@ public class Camp {
         this.campCommSlots = campCommSlots;
         this.description = description;
         this.staffIC = staffIC;
+        this.attendees = new ArrayList<>();
+        this.campComms = new ArrayList<>();
         this.visibility = visibility;
+        this.withdrawalList = new ArrayList<>();
+    }
+
+    public Camp(String name, Date startDate, Date endDate, Date regDeadline, String userGroup,
+                String location, int totalSlots, int campCommSlots, String description,
+                String staffIC, ArrayList<String> attendees, ArrayList<String> campComms, boolean visibility,
+                ArrayList<String> withdrawalList) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.regDeadline = regDeadline;
+        this.userGroup = userGroup;
+        this.location = location;
+        this.totalSlots = totalSlots;
+        this.campCommSlots = campCommSlots;
+        this.description = description;
+        this.staffIC = staffIC;
+        this.attendees = new ArrayList<String>();
+        this.attendees.addAll(attendees);
+        this.campComms = new ArrayList<String>();
+        this.campComms.addAll(campComms);
+        this.visibility = visibility;
+        this.withdrawalList = new ArrayList<String>();
+        this.withdrawalList.addAll(withdrawalList);
     }
 
     public String getName() {
@@ -119,6 +147,11 @@ public class Camp {
         attendees.add(attendee);
     }
 
+    public void removeAttendees(String attendee){
+        int index = attendees.indexOf(attendee);
+        attendees.remove(index);
+    }
+
     public ArrayList<String> getCampComms(){
         return campComms;
     }
@@ -132,6 +165,9 @@ public class Camp {
     }
 
     public int getRemindingSlots(){
+        if (attendees.isEmpty()){
+            return totalSlots;
+        }
         return totalSlots - attendees.size();
     }
 
@@ -146,5 +182,5 @@ public class Camp {
     public void addWithdrawalList(String student_withdraw){
         withdrawalList.add(student_withdraw);
     }
-    
+
 }

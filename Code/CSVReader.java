@@ -18,12 +18,12 @@ public abstract class CSVReader implements DataReader{
             return result;
         }
         catch (FileNotFoundException e) {
-            System.out.println("Error: CSV file not found.");
+            System.out.println("Error: Required CSV file not found.");
             System.exit(1);
             return null;
         }
         catch (IOException e) {
-            System.out.println("Error: CSV file could not be read.");
+            System.out.println("Error: Required CSV file could not be read.");
             System.exit(2);
             return null;
         }        
