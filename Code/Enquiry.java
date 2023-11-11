@@ -6,10 +6,10 @@ public class Enquiry {
     private String responder;
     private String campName;
 
-    public Enquiry(String sender, String message, String enquiryID, String campName) {
+    public Enquiry(String sender, String message, String campName) {
         this.sender = sender;
         this.message = message;
-        this.enquiryID = enquiryID;
+        this.enquiryID = null;
         this.response = null;
         this.responder = null;
         this.campName = campName;

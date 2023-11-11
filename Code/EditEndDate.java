@@ -1,23 +1,20 @@
 import java.util.Scanner;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class EditEndDate implements EditOperation {
+public class EditEndDate implements EditOperationForStaff {
     public void perform(Camp camp) {
         Scanner scanner = new Scanner(System.in);
-        try {
-            // Getting user input
-            System.out.println("Enter the new end date (yyyy-MM-dd): ");
-            String endDate = scanner.nextLine();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date enddate = dateFormat.parse(endDate);
-            camp.setEndDate(enddate);
-        } catch (ParseException e) {
-            System.out.println("Error parsing the date: " + e.getMessage());
-        } finally{
-                scanner.close();
-            }
+        System.out.println("Enter the new end date (dd/mm/yyyy): ");
+        String endDate = scanner.nextLine();
+        Date enddate = DateConverter.stringToDate(endDate);
+        if(enddate.before(camp.getStartDate())){
+            System.out.println("End date cannot be before start date");
+            return;
         }
+        else if(enddate.before(camp.getRegDeadline())){
+            System.out.println("End date cannot be before registration deadline");
+            return;
+        }
+        else camp.setEndDate(enddate);
+    }
 }
