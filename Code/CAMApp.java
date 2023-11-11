@@ -155,12 +155,92 @@ public class CAMApp {
                                         break;
 
                                     case 2:
-                                        System.out.println("do case 2");
+                                        System.out.println("Please enter the name of the camp that you wish to edit");
+                                        String editCamp = sc.next();
+                                        Camp editcamp_obj = camp_storage.getData(editCamp);
+                                        if(editcamp_obj.getStaffIC().equals(staffAccount.getName())){
+                                            int staff_editchoice = 0;
+                                            while(staff_editchoice != 9) {
+                                                System.out.println("Please select what you would like to edit");
+                                                System.out.println("1) Edit Name");
+                                                System.out.println("2) Edit start date");
+                                                System.out.println("3) Edit end date");
+                                                System.out.println("4) Edit registration deadline");
+                                                System.out.println("5) Edit user group");
+                                                System.out.println("6) Edit location");
+                                                System.out.println("7) Edit description");
+                                                System.out.println("8) Toggle visibility");
+                                                System.out.println("9) Exit edit page");
+                                                staff_editchoice = sc.nextInt();
+
+                                                switch(staff_editchoice){
+                                                    case 1:
+                                                        ChangeName changeName = new ChangeName();
+                                                        changeName.perform(editcamp_obj);
+                                                        System.out.println("Name changed successfully");
+                                                        break;
+
+                                                    case 2:
+                                                        EditStartDate changeStartDate = new EditStartDate();
+                                                        changeStartDate.perform(editcamp_obj);
+                                                        break;
+                                                    
+                                                    case 3:
+                                                        EditEndDate changeEndDate = new EditEndDate();
+                                                        changeEndDate.perform(editcamp_obj);
+                                                        break;
+                                                    
+                                                    case 4:
+                                                        EditRegDeadline changeRegDeadline = new EditRegDeadline();
+                                                        changeRegDeadline.perform(editcamp_obj);
+                                                        break;
+
+                                                    case 5:
+                                                        EditUserGrp changeUserGroup = new EditUserGrp();
+                                                        changeUserGroup.perform(editcamp_obj);
+
+                                                        break;
+                                                    
+                                                    case 6:
+                                                        EditLocation changeLocation = new EditLocation();
+                                                        changeLocation.perform(editcamp_obj);
+                                                        System.out.println("Location changed successfully");
+                                                        break;
+
+                                                    case 7:
+                                                        EditDescription changeDescription = new EditDescription();
+                                                        changeDescription.perform(editcamp_obj);
+                                                        System.out.println("Description changed successfully");
+                                                        break;
+                                                    
+                                                    case 8:
+                                                        ToggleVisibility toggleVisibility = new ToggleVisibility();
+                                                        toggleVisibility.perform(editcamp_obj);
+                                                        break;
+
+                                                    case 9:
+                                                        System.out.println("Exiting edit page");
+                                                    break;
+
+                                                    default:
+                                                    System.out.println("Invalid choice. Please enter a valid option.");
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            System.out.println("Error... you are not the staff in charge of t1his camp.");
+                                        }
+
                                         break;
                                     case 3:
                                         System.out.println("Please enter the name of the camp that you wish to remove");
                                         String tarCamp = sentenceSc.next();
                                         Camp tarcamp_obj = camp_storage.getData(tarCamp);
+                                        if (tarCamp == null){
+                                            System.out.println("Camp do not exist");
+                                        }
+                                        else{ 
                                         if(tarcamp_obj.getStaffIC().equals(staffAccount.getName())){
                                             camp_storage.removeItem(tarcamp_obj);
                                             System.out.println("Camp " + tarCamp +" removed successfully");
@@ -168,6 +248,7 @@ public class CAMApp {
                                         else{
                                             System.out.println("Error removing... you are not the staff in charge of this camp.");
                                         }
+                                    }
                                         break;
                                     case 4:
                                         camp_storage.printData();
@@ -287,13 +368,42 @@ public class CAMApp {
                                         System.out.println("Do case 4");
                                         break;
                                     case 5:
-                                        System.out.println("Do case 5");
+                                        System.out.println("Which camp do you have enquiries about?");
+                                        String userEnqCamp = sc.next();
+                                        if(camp_storage.getData(userEnqCamp) == null){
+                                            System.out.println("Camp do not exist!");
+                                        }
+                                        else{
+                                            Camp enqCamp = camp_storage.getData(userEnqCamp);
+                                            if(enqCamp.getVisibility() == false || enqCamp.getUserGroup().equals(studentAccount.getFaculty()) == false){
+                                                System.out.println("Camp is not open for your faculty");
+                                            }
+                                            else{
+                                                System.out.println("Please enter your enquiry");
+                                                String userEnq = sentenceSc.next();
+                                                Enquiry newEnquiry = new Enquiry(studentAccount.getName(), userEnq, userEnqCamp);
+                                                newEnquiry.setEnquiryId(Integer.toString(enquiry_storage.generateID()));
+                                                enquiry_storage.addItem(newEnquiry);
+                                                System.out.println("Enquiry submitted successfully");
+                                                System.out.println("Enquiry ID is " + newEnquiry.getEnquiryId());
+                                                System.out.println("Use this enquiry ID to edit or delete your enquiry");
+                                            }
+                                        }
                                         break;
                                     case 6:
-                                        System.out.println("Do case 6");
+                                        enquiry_storage.printSenderData(studentAccount.getName());
                                         break;
                                     case 7:
-                                        System.out.println("Do case 7");
+                                        System.out.println("Which enquiry would you like to edit? Enter your enquiryID");
+                                        String userEditEnq = sc.next();
+                                        Enquiry editEnq = enquiry_storage.getData(userEditEnq);
+                                        if(editEnq.getSender() != studentAccount.getName()){
+                                            System.out.println("You are not the sender of this enquiry");
+                                        }
+                                        else{
+                                            EditEnquiries editEnquiries = new EditEnquiries();
+                                            editEnquiries.perform(editEnq);
+                                        }
                                         break;
                                     case 8:
                                         System.out.println("Do case 8");
