@@ -1,8 +1,6 @@
-import java.text.ParseException;
 import java.util.Scanner;
 import java.util.Objects;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class CAMApp {
