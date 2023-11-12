@@ -7,5 +7,6 @@ public class EditDescription implements EditOperationForStaff{
         System.out.println("Enter the new description: ");
         String description = scanner.nextLine();
         camp.setDescription(description);
+        System.out.println("Description changed successfully");
     }
 }

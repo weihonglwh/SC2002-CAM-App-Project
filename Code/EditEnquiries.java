@@ -7,6 +7,6 @@ public class EditEnquiries implements EditOperationForStudent{
         System.out.println("What is your new enquiry?");
         String newenq = sc.nextLine();
         e.setMessage(newenq);
-        System.out.println("New enquiry has been set");
+        System.out.println("New enquiry has been saved");
     }
 }

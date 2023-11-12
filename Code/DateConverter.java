@@ -13,4 +13,10 @@ public class DateConverter {
         }
         return null;
     }
+
+    public static String dateToString(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String dateString = formatter.format(date);
+        return dateString;
+    }
 }
