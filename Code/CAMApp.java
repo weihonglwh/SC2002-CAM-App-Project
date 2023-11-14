@@ -2,6 +2,8 @@ import java.util.Scanner;
 import java.util.Objects;
 import java.util.Date;
 import java.util.ArrayList;
+import java.io.Console;
+
 public class CAMApp {
     public static void main(String[] args) {
         // init storages
@@ -28,7 +30,8 @@ public class CAMApp {
         suggestionReader.populateStorage(suggestion_storage);
         enquiryReader.populateStorage(enquiry_storage);
         campReader.populateStorage(camp_storage);
-
+        // init required dependencies
+        Console console = System.console();
         Scanner sc = new Scanner(System.in);
         boolean log_in_successfully = false;
         ArrayList<Camp> listOfCamps;
@@ -58,8 +61,9 @@ public class CAMApp {
                     while (!log_in_successfully) {
                         System.out.println("Please enter your Staff Username");
                         String staff_user = sc.next();
-                        System.out.println("Please enter your Staff Password");
-                        String staff_password = sc.next();
+                        // mask password input
+                        char[] staff_password_arr = console.readPassword("Please enter your Staff Password\n");
+                        String staff_password = new String(staff_password_arr);
                         StaffAccount staffAccount = staff_storage.getData(staff_user);
                         if (Objects.isNull(staffAccount)){
                             System.out.println("Wrong username or password");
@@ -86,7 +90,7 @@ public class CAMApp {
                                 System.out.println("11) View camp committee of a camp");
                                 System.out.println("12) Generate a performance report of the camp committee members");
                                 System.out.println("13) Change password");
-                                System.out.println("14) Log out and write changes to file");
+                                System.out.println("14) Log out");
                                 staff_choice = sc.nextInt();
                                 sc.nextLine();
 
@@ -335,18 +339,13 @@ public class CAMApp {
                                         System.out.println("do case 12");
                                         break;
                                     case 13:
-                                        System.out.println("Please enter the new password: ");
-                                        String userNewPassword = sc.next();
+                                        char[] userNewPasswordArr = console.readPassword("Please enter the new password:\n");
+                                        String userNewPassword = new String(userNewPasswordArr);
                                         staffAccount.setPassword(userNewPassword);
                                         System.out.println("Password Changed Successfully");
                                         break;
                                     case 14:
                                         System.out.println("Goodbye " + staffAccount.getName() + " !");
-                                        staffWriter.performWrite("staff.csv", staff_storage);
-                                        studentWriter.performWrite("student.csv", student_storage);
-                                        enquiryWriter.performWrite("enquiry.csv", enquiry_storage);
-                                        suggestionWriter.performWrite("suggestion.csv", suggestion_storage);
-                                        campWriter.performWrite("camp.csv", camp_storage);
                                         break;
                                 }
                             }
@@ -361,8 +360,8 @@ public class CAMApp {
                     while (!log_in_successfully) {
                         System.out.println("Please enter your Student Username");
                         String studentUser = sc.next();
-                        System.out.println("Please enter your Student Password");
-                        String studentPassword = sc.next();
+                        char[] student_password_arr = console.readPassword("Please enter your Student Password\n");
+                        String studentPassword = new String(student_password_arr);
                         StudentAccount studentAccount = student_storage.getData(studentUser);
                         if(Objects.isNull(studentAccount))
                         {
@@ -504,8 +503,8 @@ public class CAMApp {
                                         }
                                         break;
                                     case 11:
-                                        System.out.println("Please enter the new password: ");
-                                        String userNewPassword = sc.next();
+                                        char[] userNewPasswordArr = console.readPassword("Please enter the new password:\n");
+                                        String userNewPassword = new String(userNewPasswordArr);
                                         studentAccount.setPassword(userNewPassword);
                                         System.out.println("Password Changed Successfully");
                                         break;
@@ -520,9 +519,14 @@ public class CAMApp {
                     }
                     break;
                 case 3:
-                    System.out.print("Goodbye!");
-                    System.exit(1);
-
+                    System.out.println("Goodbye!");
+                    staffWriter.performWrite("staff.csv", staff_storage);
+                    studentWriter.performWrite("student.csv", student_storage);
+                    enquiryWriter.performWrite("enquiry.csv", enquiry_storage);
+                    suggestionWriter.performWrite("suggestion.csv", suggestion_storage);
+                    campWriter.performWrite("camp.csv", camp_storage);
+                    System.out.println("Data written to files.");
+                    System.exit(0);
             }
         }
     }
