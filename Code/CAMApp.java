@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.Objects;
 import java.util.Date;
@@ -410,25 +409,26 @@ public class CAMApp {
                                         // include the points of the camp committee members
                                         System.out.println("Please enter the camp that you wish to generate performace report for");
                                         String campReport = sc.nextLine();
-                                        // Generate preoformance report for campReport
+                                        // Generate performance report for campReport
                                         break;
                                     case 13: //Generate list of attendees or camp committee either in txt or csv format
                                         System.out.println("Would you like to generate list of attendees or camp committee");
                                         System.out.println("1) Generate list of attendees");
                                         System.out.println("2) Generate list of camp committee");
+                                        System.out.println("3) Generate list of attendees and camp committee");
                                         int userChoice = sc.nextInt();
-                                        while(userChoice!= 1 && userChoice!=2){
+                                        while(userChoice!= 1 && userChoice!=2 && userChoice!=3){
                                             System.out.println("Invalid choice. Please select again!");
                                             userChoice = sc.nextInt();
                                         }
                                         sc.nextLine();
+                                        String campToEnquire;
+                                        Camp campNameToEnquireObj;
                                         switch(userChoice){
-                                            String campNameToEnquire;
-                                            Camp campNameToEnquireObj;
                                             case 1:
                                                 System.out.println("Please enter the camp name that you would like to enquire?");
-                                                campNameToEnquire = sc.nextLine();
-                                                campNameToEnquireObj = camp_storage.getData(campNameToEnquire);
+                                                campToEnquire = sc.nextLine();
+                                                campNameToEnquireObj = camp_storage.getData(campToEnquire);
                                                 if(campNameToEnquireObj == null){
                                                     System.out.println("Camp do not exist");
                                                 }
@@ -438,6 +438,11 @@ public class CAMApp {
                                                     System.out.println(" 1) CSV file");
                                                     System.out.println(" 2) TXT file");
                                                     int outputFormatChoice = sc.nextInt();
+                                                    while(outputFormatChoice!=1 && outputFormatChoice!=2){
+                                                        System.out.println("Invalid choice. Please select again");
+                                                        outputFormatChoice = sc.nextInt();
+                                                    }
+                                                    sc.nextLine();
                                                     switch(outputFormatChoice){
                                                         case 1:
                                                             //output data in csv file
@@ -450,8 +455,8 @@ public class CAMApp {
                                                 break;
                                             case 2:
                                                 System.out.println("Please enter the camp name that you would like to enquire?");
-                                                campNameToEnquire = sc.nextLine();
-                                                campNameToEnquireObj = camp_storage.getData(campNameToEnquire);
+                                                campToEnquire = sc.nextLine();
+                                                campNameToEnquireObj = camp_storage.getData(campToEnquire);
                                                 if(campNameToEnquireObj == null){
                                                     System.out.println("Camp do not exist");
                                                 }
@@ -461,6 +466,11 @@ public class CAMApp {
                                                     System.out.println(" 1) CSV file");
                                                     System.out.println(" 2) TXT file");
                                                     int outputFormatChoice = sc.nextInt();
+                                                    while(outputFormatChoice!=1 && outputFormatChoice!=2){
+                                                        System.out.println("Invalid choice. Please select again");
+                                                        outputFormatChoice = sc.nextInt();
+                                                    }
+                                                    sc.nextLine();
                                                     switch(outputFormatChoice){
                                                         case 1:
                                                             //output data in csv file
@@ -471,6 +481,8 @@ public class CAMApp {
                                                     }
                                                 }
                                                 break;
+                                            case 3:
+                                                staffAccount.generateAttendeeListCSV(camp_storage);
                                         }
                                         break;
                                     case 14: // change password
@@ -858,8 +870,62 @@ public class CAMApp {
                                                         break;
 
                                                     case 8: // Generate a report of the list of students attending
-                                                        System.out.println("do case 8");
+                                                        System.out.println("Would you like to generate a report on list of attendees or camp committee");
+                                                        System.out.println(" 1) Generate report on attendees");
+                                                        System.out.println(" 2) Generate report on camp committee");
+                                                        int campCommReportSelection = sc.nextInt();
+                                                        int campCommReportOutput;
+                                                        while(campCommReportSelection != 1 && campCommReportSelection != 2){
+                                                            System.out.println("Invalid choice. Please select again");
+                                                            campCommReportSelection = sc.nextInt();
+                                                        }
+                                                        sc.nextLine();
+                                                        switch(campCommReportSelection) {
+                                                            case 1:
+                                                                //get details on attendees
+                                                                System.out.println("How would you like to output");
+                                                                System.out.println(" 1) CSV");
+                                                                System.out.println(" 2) TXT");
+                                                                campCommReportOutput = sc.nextInt();
+                                                                //reference to the camp object by studentCampCommObj
+                                                                while (campCommReportOutput != 1 && campCommReportOutput != 2) {
+                                                                    System.out.println("Invalid choice. Please select again");
+                                                                    campCommReportOutput = sc.nextInt();
+                                                                }
+                                                                sc.nextLine();
+                                                                switch (campCommReportOutput) {
+                                                                    case 1:
+                                                                        // output in csv format
+                                                                        break;
+                                                                    case 2:
+                                                                        // output in txt format
+                                                                        break;
+                                                                }
+                                                                break;
+                                                            case 2:
+                                                                // get details on camp committee
+                                                                System.out.println("How would you like to output");
+                                                                System.out.println(" 1) CSV");
+                                                                System.out.println(" 2) TXT");
+                                                                campCommReportOutput = sc.nextInt();
+                                                                //reference to the camp object by studentCampCommObj
+                                                                while (campCommReportOutput != 1 && campCommReportOutput != 2) {
+                                                                    System.out.println("Invalid choice. Please select again");
+                                                                    campCommReportOutput = sc.nextInt();
+                                                                }
+                                                                sc.nextLine();
+                                                                switch (campCommReportOutput) {
+                                                                    case 1:
+                                                                        // output in csv format
+                                                                        break;
+                                                                    case 2:
+                                                                        // output in txt format
+                                                                        break;
+                                                                }
+                                                                break;
+                                                        }
                                                         break;
+
                                                     case 9: // Print camp information
                                                         UiPrinter.printCampInformation(studentCampCommObj);
                                                         break;
