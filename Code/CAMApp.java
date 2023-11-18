@@ -482,7 +482,10 @@ public class CAMApp {
                                                 }
                                                 break;
                                             case 3:
-                                                staffAccount.generateAttendeeListCSV(camp_storage);
+                                                // No filter
+                                                String fileName = staffAccount.getName()+"_AttendeeList";
+                                                staffAccount.generateAttendeeListCSV(null, camp_storage, student_storage, fileName);
+                                                break;
                                         }
                                         break;
                                     case 14: // change password

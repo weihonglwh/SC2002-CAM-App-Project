@@ -1,3 +1,4 @@
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Dictionary;
 
@@ -47,22 +48,13 @@ public abstract class UserAccount {
         this.faculty = faculty;
     };
 
-    // No filter report
-    public void generateAttendeeListCSV(CampStorage campStorage) {
+    public void generateAttendeeListCSV(Filter filter, CampStorage campStorage, StudentStorage studentStorage, String fileName) {
         ArrayList<Camp> campsByStaff = ReportPrepper.findCampsByStaff(userId, campStorage);
+        AttendeeListCSVWriter.writeHeader(fileName + ".csv");
         for (Camp camp : campsByStaff) {
-            ArrayList<Dictionary> namesAndRoles = ReportPrepper.buildDictionary(camp);
-            AttendeeListCSVWriter.performWrite(camp.getName() + ".csv", camp, namesAndRoles);
+            ArrayList<Dictionary<String, String>> namesAndRoles = ReportPrepper.buildDictionary(camp, studentStorage);
+            AttendeeListCSVWriter.writeData(fileName + ".csv", namesAndRoles, camp, filter);
         }
-    }
-
-    // Report with filter
-    public void generateAttendeeListCSV(Filter filter, CampStorage campStorage) {
-        ArrayList<Camp> campsByStaff = ReportPrepper.findCampsByStaff(userId, campStorage);
-        for (Camp camp : campsByStaff) {
-            ArrayList<Dictionary> namesAndRoles = ReportPrepper.buildDictionary(camp);
-            namesAndRoles = filter.performFilter(namesAndRoles);
-            AttendeeListCSVWriter.performWrite(camp.getName() + ".csv", camp, namesAndRoles);
-        }
+        System.out.println("Attendee list outputted to " + fileName + ".csv" + " successfully.");
     }
 }
