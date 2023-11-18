@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Dictionary;
+
 public abstract class UserAccount {
     private String name;
     private String userId;
@@ -43,4 +46,23 @@ public abstract class UserAccount {
     public void setFaculty(String faculty){
         this.faculty = faculty;
     };
+
+    // No filter report
+    public void generateAttendeeListCSV(CampStorage campStorage) {
+        ArrayList<Camp> campsByStaff = ReportPrepper.findCampsByStaff(userId, campStorage);
+        for (Camp camp : campsByStaff) {
+            ArrayList<Dictionary> namesAndRoles = ReportPrepper.buildDictionary(camp);
+            AttendeeListCSVWriter.performWrite(camp.getName() + ".csv", camp, namesAndRoles);
+        }
+    }
+
+    // Report with filter
+    public void generateAttendeeListCSV(Filter filter, CampStorage campStorage) {
+        ArrayList<Camp> campsByStaff = ReportPrepper.findCampsByStaff(userId, campStorage);
+        for (Camp camp : campsByStaff) {
+            ArrayList<Dictionary> namesAndRoles = ReportPrepper.buildDictionary(camp);
+            namesAndRoles = filter.performFilter(namesAndRoles);
+            AttendeeListCSVWriter.performWrite(camp.getName() + ".csv", camp, namesAndRoles);
+        }
+    }
 }
