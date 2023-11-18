@@ -3,30 +3,33 @@ public class Suggestion {
     private String suggestion;
     private boolean approval;
     private boolean processed;
-    private String suggestionID;
+    private int suggestionID;
+    private String campName;
 
-    public Suggestion(String suggestor, String suggestion, String suggestionID){
+    public Suggestion(String suggestor, String suggestion, int suggestionID, String campName) {
         this.suggestor = suggestor;
         this.suggestion = suggestion;
         this.approval = false;
         this.processed = false;
         this.suggestionID = suggestionID;
+        this.campName = campName;
     }
 
-    public Suggestion(String suggestor, String suggestion, String suggestionID, boolean approval, boolean processed){
+    public Suggestion(String suggestor, String suggestion, int suggestionID, boolean approval, boolean processed, String campName) {
         this.suggestor = suggestor;
         this.suggestion = suggestion;
         this.approval = approval;
         this.processed = processed;
         this.suggestionID = suggestionID;
+        this.campName = campName;
     }
     
-    public String getSuggestionId(){
+    public int getSuggestionId(){
         return suggestionID;
     }
 
-    public void setSuggestionId(String Id){
-        this.suggestionID = Id;
+    public void setSuggestionId(int id){
+        this.suggestionID = id;
     }
 
     public String getSuggestor(){
@@ -60,5 +63,10 @@ public class Suggestion {
     public void setProcessed(boolean processed){
         this.processed = processed;
     }
+
+    public String getCampName(){return campName;}
+
+    public void setCampName(String campName){this.campName = campName;}
+
 
 }

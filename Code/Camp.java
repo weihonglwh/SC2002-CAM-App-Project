@@ -1,7 +1,7 @@
 import java.util.Date;
 import java.util.ArrayList;
 
-public class Camp {
+public class Camp implements Comparable {
     private String name;
     private Date startDate;
     private Date endDate;
@@ -150,6 +150,7 @@ public class Camp {
     public void removeAttendees(String attendee){
         int index = attendees.indexOf(attendee);
         attendees.remove(index);
+        addWithdrawalList(attendee);
     }
 
     public ArrayList<String> getCampComms(){
@@ -164,11 +165,18 @@ public class Camp {
         return visibility;
     }
 
-    public int getRemindingSlots(){
+    public int getRemaindingSlots(){
         if (attendees.isEmpty()){
-            return totalSlots;
+            return totalSlots - getCampCommSlots();
         }
-        return totalSlots - attendees.size();
+        return totalSlots - attendees.size()- getCampCommSlots();
+    }
+
+    public int getRemaindingSlotsCampComm(){
+        if(campComms.isEmpty()){
+            return campCommSlots;
+        }
+        return campCommSlots - campComms.size();
     }
 
     public void setVisibility(boolean visibility){
@@ -183,4 +191,28 @@ public class Camp {
         withdrawalList.add(student_withdraw);
     }
 
+    public void printAttendees(){
+        for (String s : attendees)
+        {
+            System.out.println(s);
+        }
+    }
+
+    public void printCampComm(){
+        for (String Campcomm : campComms){
+            System.out.println(Campcomm);
+        }
+    }
+
+    public void editCamp(EditOperationForStaff op) {
+        op.perform(this);
+    }
+
+    public int compareTo(Object o) {
+        if (!(o instanceof Camp)) {
+            return 0;
+        }
+        Camp c = (Camp) o;
+        return (this.name.toUpperCase().compareTo(c.getName().toUpperCase()) <= 0) ? -1 : 1;
+    }
 }

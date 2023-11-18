@@ -6,7 +6,7 @@ public class EditStartDate implements EditOperationForStaff {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the new start date (dd/mm/yyyy): ");
         String startDate = scanner.nextLine();
-        Date startdate = DateConverter.stringToDate(startDate);
+        Date startdate = DateUtility.stringToDate(startDate);
         if(startdate.after(camp.getEndDate())){
             System.out.println("Start date cannot be after end date");
             return;

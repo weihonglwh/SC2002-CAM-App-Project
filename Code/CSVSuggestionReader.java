@@ -6,6 +6,7 @@ import java.util.ArrayList;
     Col 2: Suggestion
     Col 3: Approval
     Col 4: Processed
+    Col 5: CampName
 */
 
 public class CSVSuggestionReader extends CSVReader{
@@ -24,6 +25,7 @@ public class CSVSuggestionReader extends CSVReader{
                 }
                 // Trim to remove whitespace
                 String suggestionID = suggestionDetails[0].trim();
+                int idInt = Integer.parseInt(suggestionID);
                 String suggestor = suggestionDetails[1].trim();
                 String suggestionMsg = suggestionDetails[2].trim().replace("\"", ""); // Remove quotes from message
                 // Replace 1/0 with true/false for boolean parsing
@@ -33,8 +35,9 @@ public class CSVSuggestionReader extends CSVReader{
                 suggestionDetails[4] = suggestionDetails[4].replace("0", "false");
                 boolean approval = Boolean.parseBoolean(suggestionDetails[3].trim());
                 boolean processed = Boolean.parseBoolean(suggestionDetails[4].trim());
-                //System.out.println("Adding suggestion: " + suggestionID + " " + suggestor + " " + suggestionMsg + " " + approval + " " + processed);
-                s.addItem(new Suggestion(suggestor, suggestionMsg, suggestionID, approval, processed));
+                String campName = suggestionDetails[5].trim();
+                //System.out.println("Adding suggestion: " + suggestionID + " " + suggestor + " " + suggestionMsg + " " + approval + " " + processed + " " + campName);
+                s.addItem(new Suggestion(suggestor, suggestionMsg, idInt, approval, processed, campName));
             }
         }
         catch (Exception e) {
@@ -42,15 +45,4 @@ public class CSVSuggestionReader extends CSVReader{
             System.exit(3);
         }
     }
-
-    // public static void main(String[] args) {
-    //     CSVSuggestionReader reader = new CSVSuggestionReader();
-    //     SuggestionStorage storage = new SuggestionStorage();
-    //     reader.populateStorage(storage);
-    //     ArrayList<Suggestion> suggestions = storage.getData();
-    //     for (Suggestion s : suggestions) {
-    //         System.out.println(s.getSuggestionId() + " " + s.getSuggestor() + " " + s.getSuggestion() + " " + s.getApproval() + " " + s.getProcessed());
-    //         System.out.println();
-    //     }
-    // }
 }

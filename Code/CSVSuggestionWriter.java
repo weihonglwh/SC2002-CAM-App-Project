@@ -20,7 +20,7 @@ public class CSVSuggestionWriter implements DataWriter{
                 String approvalString = suggestion.getApproval() ? "1" : "0";
                 String processedString = suggestion.getProcessed() ? "1" : "0";
                 bw.write(suggestion.getSuggestionId() + "," + suggestion.getSuggestor() + "," +
-                 "\""+suggestion.getSuggestion()+"\"" + "," + approvalString + "," + processedString);
+                 "\""+suggestion.getSuggestion()+"\"" + "," + approvalString + "," + processedString + "," + suggestion.getCampName());
                 bw.newLine();
             }
             bw.close();

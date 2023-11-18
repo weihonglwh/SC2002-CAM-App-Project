@@ -41,11 +41,11 @@ public class CSVCampReader extends CSVReader{
                 // Trim to remove whitespace
                 String name = campDetails[0].trim();
                 String startDate = campDetails[1].trim();
-                Date startDateObj = DateConverter.stringToDate(startDate);
+                Date startDateObj = DateUtility.stringToDate(startDate);
                 String endDate = campDetails[2].trim();
-                Date endDateObj = DateConverter.stringToDate(endDate);
+                Date endDateObj = DateUtility.stringToDate(endDate);
                 String regDeadline = campDetails[3].trim();
-                Date regDeadlineObj = DateConverter.stringToDate(regDeadline);
+                Date regDeadlineObj = DateUtility.stringToDate(regDeadline);
                 String userGroup = campDetails[4].trim();
                 String location = campDetails[5].trim();
                 int totalSlots = Integer.parseInt(campDetails[6].trim());
@@ -70,17 +70,23 @@ public class CSVCampReader extends CSVReader{
                 // Split attendeesString by ; and add to attendees ArrayList
                 String[] attendeesArray = attendeesString.split(";");
                 for (String attendee : attendeesArray) {
-                    attendees.add(attendee.trim());
+                    if (!attendee.isBlank()) {
+                        attendees.add(attendee.trim());
+                    }
                 }
                 // Split campCommsString by ; and add to campComms ArrayList
                 String[] campCommsArray = campCommsString.split(";");
                 for (String campComm : campCommsArray) {
-                    campComms.add(campComm.trim());
+                    if (!campComm.isBlank()) {
+                        campComms.add(campComm.trim());
+                    }
                 }
                 // Split withdrawalListString by ; and add to withdrawalList ArrayList
                 String[] withdrawalListArray = withdrawalListString.split(";");
                 for (String withdrawal : withdrawalListArray) {
-                    withdrawalList.add(withdrawal.trim());
+                    if (!withdrawal.isBlank()) {
+                        withdrawalList.add(withdrawal.trim());
+                    }
                 }
                 //System.out.println("Adding camp: " + name + " " + startDate + " " + endDate + " " + regDeadline + " " + userGroup + " " + location + " " + totalSlots + " " + campCommSlots + " " + description + " " + staffIC + " " + attendees + " " + campComms + " " + visibility + " " + withdrawalList);
                 s.addItem(new Camp(name, startDateObj, endDateObj, regDeadlineObj, userGroup, 
@@ -93,15 +99,4 @@ public class CSVCampReader extends CSVReader{
             System.exit(3);
         }
     }
-
-    // public static void main(String[] args) {
-    //     CSVCampReader reader = new CSVCampReader();
-    //     CampStorage storage = new CampStorage();
-    //     reader.populateStorage(storage);
-    //     ArrayList<Camp> camps = storage.getData();
-    //     for (Camp c : camps) {
-    //         System.out.println(c.getName() + " " + c.getStartDate() + " " + c.getEndDate() + " " + c.getRegDeadline() + " " + c.getUserGroup() + " " + c.getLocation() + " " + c.getTotalSlots() + " " + c.getCampCommSlots() + " " + c.getDescription() + " " + c.getStaffIC() + " " + c.getAttendees() + " " + c.getCampComms() + " " + c.getVisibility() + " " + c.getWithdrawalList());
-    //         System.out.println();
-    //     }
-    // }
 }

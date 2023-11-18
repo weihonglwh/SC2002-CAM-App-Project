@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.Objects;
 import java.util.Date;
@@ -30,34 +31,28 @@ public class CAMApp {
         suggestionReader.populateStorage(suggestion_storage);
         enquiryReader.populateStorage(enquiry_storage);
         campReader.populateStorage(camp_storage);
+        System.out.println("Data loaded successfully");
         // init required dependencies
         Console console = System.console();
         Scanner sc = new Scanner(System.in);
-        boolean log_in_successfully = false;
-        ArrayList<Camp> listOfCamps;
+        boolean log_in_successfully;
 
         while (true) {
             log_in_successfully = false;
             int user_choice = 0;
-            System.out.println("Please select who would you like to log in as: ");
-            System.out.println("1) Staff");
-            System.out.println("2) Student");
-            System.out.println("3) Exit app");
+            UiPrinter.printLoginInMenu();
             user_choice = sc.nextInt();
             sc.nextLine();
             while (user_choice != 1 && user_choice != 2 && user_choice != 3) {
                 System.out.print("Error... Please select again");
-                System.out.println("Please select who would you like to log in as: ");
-                System.out.println("1) Staff");
-                System.out.println("2) Student");
-                System.out.println("3) Exit app");
+                UiPrinter.printLoginInMenu();
                 user_choice = sc.nextInt();
                 sc.nextLine();
             }
             // this switch case is for user to log in.
             switch (user_choice) {
 
-                case 1:
+                case 1: // staff login
                     while (!log_in_successfully) {
                         System.out.println("Please enter your Staff Username");
                         String staff_user = sc.next();
@@ -75,30 +70,16 @@ public class CAMApp {
                             //print the menu for the staff
                             int staff_choice = 0;
                             System.out.println("Welcome " + staffAccount.getName());
-                            while(staff_choice != 14) {
-                                System.out.println("What would you like to do today?");
-                                System.out.println("1) Create Camps");
-                                System.out.println("2) Edit Camps");
-                                System.out.println("3) Delete Camps");
-                                System.out.println("4) View all Camps");
-                                System.out.println("5) View camps created by you");
-                                System.out.println("6) View Enquires by students");
-                                System.out.println("7) Reply to enquires by students");
-                                System.out.println("8) View Suggestions to camp");
-                                System.out.println("9) Approve/Reject Suggestions");
-                                System.out.println("10) View attendees of a camp");
-                                System.out.println("11) View camp committee of a camp");
-                                System.out.println("12) Generate a performance report of the camp committee members");
-                                System.out.println("13) Change password");
-                                System.out.println("14) Log out");
+                            while(staff_choice != 15) {
+                                UiPrinter.printStaffMenu();
                                 staff_choice = sc.nextInt();
                                 sc.nextLine();
 
                                 switch(staff_choice){
-                                    case 1:
+                                    case 1: // Create camps
                                         System.out.println("Please enter the name of the camp");
                                         String name = sc.nextLine();
-                                        while(!Objects.isNull(camp_storage.getData(name)))
+                                        while(!Objects.isNull(camp_storage.getData(name.trim())))
                                         {
                                             System.out.println("Camp name exists... Please select another name");
                                             System.out.println("Please enter the name of the camp");
@@ -109,38 +90,77 @@ public class CAMApp {
                                         Date regDeadline = null;
                                         System.out.println("Please enter the start date (dd/MM/yyyy)");
                                         String startDateString = sc.next();
-                                        while (startDate == null) {
-                                            startDate = DateConverter.stringToDate(startDateString);
+                                        while (startDate == null || new Date().after(startDate)) {
+                                            startDate = DateUtility.stringToDate(startDateString);
                                             if (startDate == null) {
+                                                startDateString = sc.next();
+                                            }
+                                            else if (new Date().after(startDate)) {
+                                                System.out.println("Start date cannot be before today's date, please enter again");
+                                                startDate = null;
                                                 startDateString = sc.next();
                                             }
                                         }
                                         System.out.println("Please enter the end date (dd/MM/yyyy)");
                                         String endDateString = sc.next();
-                                        while (endDate == null) {
-                                            endDate = DateConverter.stringToDate(endDateString);
+                                        while (endDate == null || startDate.after(endDate)) {
+                                            endDate = DateUtility.stringToDate(endDateString);
                                             if (endDate == null) {
+                                                endDateString = sc.next();
+                                            }
+                                            else if (startDate.after(endDate)) {
+                                                System.out.println("End date cannot be before start date, please enter again");
+                                                endDate = null;
                                                 endDateString = sc.next();
                                             }
                                         }
                                         System.out.println("Please enter the registration deadline (dd/MM/yyyy)");
                                         String regDeadlineString = sc.next();
-                                        while (regDeadline == null) {
-                                            regDeadline = DateConverter.stringToDate(regDeadlineString);
+                                        while (regDeadline == null || new Date().after(regDeadline) || regDeadline.after(startDate)) {
+                                            regDeadline = DateUtility.stringToDate(regDeadlineString);
                                             if (regDeadline == null) {
+                                                regDeadlineString = sc.next();
+                                            }
+                                            else if (new Date().after(regDeadline)) {
+                                                System.out.println("Registration deadline cannot be before today's date, please enter again.");
+                                                regDeadline = null;
+                                                regDeadlineString = sc.next();
+                                            }
+                                            else if (regDeadline.after(startDate)) {
+                                                System.out.println("Registration deadline cannot be after start date, please enter again.");
+                                                regDeadline = null;
                                                 regDeadlineString = sc.next();
                                             }
                                         }
                                         sc.nextLine();
-                                        System.out.println("Please enter the target group");
-                                        String userGroup = sc.nextLine();
+                                        System.out.println("Would you like to open it up to NTU? (Y/N)");
+                                        String userGroup_sel = sc.nextLine();
+                                        String userGroup;
+                                        while(!(userGroup_sel.equals("y")) && !(userGroup_sel.equals("Y")) && !(userGroup_sel.equals("N")) && !(userGroup_sel.equals("n")))
+                                        {
+                                            System.out.println("Invalid choice. Please select again");
+                                            System.out.println("Would you like to open it up to NTU?(Y/N)");
+                                            userGroup_sel = sc.nextLine();
+                                        }
+                                        if(userGroup_sel.equals("y") || userGroup_sel.equals("Y")){
+                                            userGroup = "NTU";
+                                        }
+                                        else{
+                                            userGroup = staffAccount.getFaculty();
+                                        }
                                         System.out.println("Please enter the location");
                                         String location = sc.nextLine();
-                                        System.out.println("Please enter the number of slots for this camp");
-                                        int totalSlots = sc.nextInt();
+                                        int totalSlots = -1; // Set to -1 to enter while loop
+                                        while (totalSlots < 2) {
+                                            System.out.println("Please enter the number of slots for this camp (Min 2)");
+                                            totalSlots = sc.nextInt();
+                                        }
                                         sc.nextLine();
-                                        System.out.println("Please enter the number of Camp Committee slots for this camp");
-                                        int campCommSlots = sc.nextInt();
+                                        int campCommSlots = -1; // Set to -1 to enter while loop
+                                        while (campCommSlots > 10 || campCommSlots < 1 || campCommSlots >= totalSlots) {
+                                            System.out.println("Please enter the number of Camp Committee slots for this camp (Min 1, Max 10, Cannot be more than or equal to total slots)");
+                                            campCommSlots = sc.nextInt();
+                                        }
                                         sc.nextLine();
                                         System.out.println("Please enter a description for the camp");
                                         String description = sc.nextLine();
@@ -160,13 +180,13 @@ public class CAMApp {
                                             visibility = false;
                                         }
 
-                                        Camp newCamp = new Camp(name, startDate, endDate, regDeadline, userGroup, location, totalSlots, campCommSlots, description, staffAccount.getName(), visibility);
+                                        Camp newCamp = new Camp(name, startDate, endDate, regDeadline, userGroup, location, totalSlots, campCommSlots, description, staffAccount.getUserId(), visibility);
                                         System.out.println("Camp created successfully");
                                         camp_storage.addItem(newCamp);
                                         System.out.println("Camp added to storage");
                                         break;
 
-                                    case 2:
+                                    case 2: // edit camps
                                         System.out.println("Please enter the name of the camp that you wish to edit");
                                         String editCamp = sc.nextLine();
                                         Camp editcamp_obj = camp_storage.getData(editCamp);
@@ -174,66 +194,40 @@ public class CAMApp {
                                             System.out.println("Camp do not exist");
                                         }
                                         else {
-                                            if (editcamp_obj.getStaffIC().equals(staffAccount.getName())) {
+                                            if (editcamp_obj.getStaffIC().equals(staffAccount.getUserId())) {
                                                 int staff_editchoice = 0;
-                                                while (staff_editchoice != 9) {
-                                                    System.out.println("Please select what you would like to edit");
-                                                    System.out.println("1) Edit Name");
-                                                    System.out.println("2) Edit start date");
-                                                    System.out.println("3) Edit end date");
-                                                    System.out.println("4) Edit registration deadline");
-                                                    System.out.println("5) Edit user group");
-                                                    System.out.println("6) Edit location");
-                                                    System.out.println("7) Edit description");
-                                                    System.out.println("8) Toggle visibility");
-                                                    System.out.println("9) Exit edit page");
+                                                while (staff_editchoice != 7) {
+                                                    UiPrinter.printStaffEditMenu();
                                                     staff_editchoice = sc.nextInt();
                                                     sc.nextLine();
 
                                                     switch (staff_editchoice) {
-                                                        case 1:
-                                                            ChangeName changeName = new ChangeName();
-                                                            changeName.perform(editcamp_obj);
-                                                            System.out.println("Name changed successfully");
+
+                                                        case 1: // edit start date
+                                                            editcamp_obj.editCamp(new EditStartDate());
                                                             break;
 
-                                                        case 2:
-                                                            EditStartDate changeStartDate = new EditStartDate();
-                                                            changeStartDate.perform(editcamp_obj);
+                                                        case 2: // edit end date
+                                                            editcamp_obj.editCamp(new EditEndDate());
                                                             break;
 
-                                                        case 3:
-                                                            EditEndDate changeEndDate = new EditEndDate();
-                                                            changeEndDate.perform(editcamp_obj);
+                                                        case 3: // edit registration deadline
+                                                            editcamp_obj.editCamp(new EditRegDeadline());
                                                             break;
 
-                                                        case 4:
-                                                            EditRegDeadline changeRegDeadline = new EditRegDeadline();
-                                                            changeRegDeadline.perform(editcamp_obj);
+                                                        case 4: // edit location
+                                                            editcamp_obj.editCamp(new EditLocation());
                                                             break;
 
-                                                        case 5:
-                                                            EditUserGrp changeUserGroup = new EditUserGrp();
-                                                            changeUserGroup.perform(editcamp_obj);
-
+                                                        case 5: // edit description
+                                                            editcamp_obj.editCamp(new EditDescription());
                                                             break;
 
-                                                        case 6:
-                                                            EditLocation changeLocation = new EditLocation();
-                                                            changeLocation.perform(editcamp_obj);
+                                                        case 6: // toggle visibility
+                                                            editcamp_obj.editCamp(new ToggleVisibility());
                                                             break;
 
-                                                        case 7:
-                                                            EditDescription changeDescription = new EditDescription();
-                                                            changeDescription.perform(editcamp_obj);
-                                                            break;
-
-                                                        case 8:
-                                                            ToggleVisibility toggleVisibility = new ToggleVisibility();
-                                                            toggleVisibility.perform(editcamp_obj);
-                                                            break;
-
-                                                        case 9:
+                                                        case 7: // exit edit page
                                                             System.out.println("Exiting edit page");
                                                             break;
 
@@ -248,7 +242,7 @@ public class CAMApp {
                                         }
 
                                         break;
-                                    case 3:
+                                    case 3: // delete camps
                                         System.out.println("Please enter the name of the camp that you wish to remove");
                                         String tarCamp = sc.nextLine();
                                         Camp tarcamp_obj = camp_storage.getData(tarCamp);
@@ -256,7 +250,7 @@ public class CAMApp {
                                             System.out.println("Camp do not exist");
                                         }
                                         else{ 
-                                        if(tarcamp_obj.getStaffIC().equals(staffAccount.getName())){
+                                        if(tarcamp_obj.getStaffIC().equals(staffAccount.getUserId()) && tarcamp_obj.getAttendees().isEmpty() && tarcamp_obj.getCampComms().isEmpty()){
                                             camp_storage.removeItem(tarcamp_obj);
                                             System.out.println("Camp " + tarCamp +" removed successfully");
                                         }
@@ -265,18 +259,13 @@ public class CAMApp {
                                         }
                                     }
                                         break;
-                                    case 4:
+                                    case 4: // view all camps
                                         camp_storage.printData();
                                         break;
-                                    case 5:
-                                        listOfCamps = camp_storage.getData();
-                                        for (Camp camp: listOfCamps){
-                                            if(camp.getStaffIC().equals(staffAccount.getName())){
-                                                camp_storage.printData(camp);
-                                            }
-                                        }
+                                    case 5: // view camps created by staff
+                                        camp_storage.printData(staffAccount);
                                         break;
-                                    case 6:
+                                    case 6: // view enquiries by students
                                         System.out.println("Please enter the name of the camp:");
                                         String campName = sc.nextLine();
                                         Camp campNameObj = camp_storage.getData(campName);
@@ -284,7 +273,7 @@ public class CAMApp {
                                             System.out.println("Camp do not exist!");
                                         }
                                         else{
-                                            if(campNameObj.getStaffIC().equals(staffAccount.getName())){
+                                            if(campNameObj.getStaffIC().equals(staffAccount.getUserId())){
                                                 enquiry_storage.printAllData(campName);
                                             }
                                             else
@@ -293,7 +282,7 @@ public class CAMApp {
                                             }
                                         }
                                         break;
-                                    case 7:
+                                    case 7: // reply to enquiries
                                         System.out.println("Please enter the name of the camp:");
                                         String campNameEnquires = sc.nextLine();
                                         Camp campNameObjEnquires = camp_storage.getData(campNameEnquires);
@@ -301,7 +290,7 @@ public class CAMApp {
                                             System.out.println("Camp do not exist!");
                                         }
                                         else{
-                                            if(campNameObjEnquires.getStaffIC().equals(staffAccount.getName())){
+                                            if(campNameObjEnquires.getStaffIC().equals(staffAccount.getUserId())){
                                                 enquiry_storage.printAllData(campNameEnquires);
                                                 System.out.println("Please enter the enquiry ID that you wish to answer");
                                                 String enquiryID = sc.nextLine();
@@ -310,10 +299,15 @@ public class CAMApp {
                                                     System.out.println("Enquiry could not be found");
                                                 }
                                                 else {
-                                                    System.out.println("Please enter your response:");
-                                                    String response = sc.nextLine();
-                                                    tarEnquiry.setResponse(response);
-                                                    tarEnquiry.setResponder(staffAccount.getName());
+                                                    if(tarEnquiry.getResponse()!=null){
+                                                        System.out.println("There is already a response");
+                                                    }
+                                                    else {
+                                                        System.out.println("Please enter your response:");
+                                                        String response = sc.nextLine();
+                                                        tarEnquiry.setResponse(response);
+                                                        tarEnquiry.setResponder(staffAccount.getUserId());
+                                                    }
                                                 }
 
                                             }
@@ -323,28 +317,169 @@ public class CAMApp {
                                             }
                                         }
                                         break;
-                                    case 8:
-                                        System.out.println("do case 8");
+                                    case 8: // view suggestions
+                                        System.out.println("Please enter the name of the camp:");
+                                        String campNameSuggestion = sc.nextLine();
+                                        Camp campNameObjSuggestion = camp_storage.getData(campNameSuggestion);
+                                        if(campNameObjSuggestion == null){
+                                            System.out.println("Camp do not exist!");
+                                        }
+                                        else {
+                                            if (campNameObjSuggestion.getStaffIC().equals(staffAccount.getUserId())) {
+                                                suggestion_storage.printData(campNameSuggestion);
+                                            }
+                                            else {
+                                                System.out.println("You are not the staff in charge!");
+                                            }
+                                        }
                                         break;
-                                    case 9:
-                                        System.out.println("do case 9");
+                                    case 9: // Process suggestions
+                                        System.out.println("Please enter the name of the camp:");
+                                        String tarCampSuggestion = sc.nextLine();
+                                        Camp tarCampNameObjSuggestion = camp_storage.getData(tarCampSuggestion);
+                                        if(tarCampNameObjSuggestion == null){
+                                            System.out.println("Camp do not exist!");
+                                        }
+                                        else {
+                                            if (tarCampNameObjSuggestion.getStaffIC().equals(staffAccount.getUserId())) {
+                                                System.out.println("Please enter the Suggestion ID that you wish to approve/reject");
+                                                String tarSuggestionID = sc.nextLine();
+                                                Suggestion tarSuggestion = suggestion_storage.getData(tarSuggestionID);
+                                                if(tarSuggestion == null){
+                                                    System.out.println("Suggestion do not exist!");
+                                                }
+                                                else{
+                                                    if (tarSuggestion.getProcessed()){
+                                                        System.out.println("Suggestion has been processed already");
+                                                    }
+                                                    else {
+                                                        System.out.println("Would you like to accept or reject this suggestion?");
+                                                        System.out.println("1) Accept");
+                                                        System.out.println("2) Reject");
+                                                        int suggestionChoice = sc.nextInt();
+                                                        sc.nextLine();
+                                                        switch (suggestionChoice) {
+                                                            case 1:
+                                                                tarSuggestion.setApproval(true);
+                                                                tarSuggestion.setProcessed(true);
+                                                                System.out.println("Suggestion Accepted");
+                                                                String studentName = tarSuggestion.getSuggestor();
+                                                                StudentAccount studentNameObj = student_storage.getData(studentName);
+                                                                studentNameObj.addPoints();
+                                                                break;
+                                                            case 2:
+                                                                tarSuggestion.setApproval(false);
+                                                                tarSuggestion.setProcessed(true);
+                                                                System.out.println("Suggestion Rejected");
+                                                                break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
                                         break;
-                                    case 10:
-                                        System.out.println("do case 10");
+                                    case 10: // View camp attendees
+                                        System.out.println("Please enter the name of the camp:");
+                                        String tarCampAttendee = sc.nextLine();
+                                        Camp tarCampAttendeeObj = camp_storage.getData(tarCampAttendee);
+                                        if(tarCampAttendeeObj == null){
+                                            System.out.println("Camp do not exist!");
+                                        }
+                                        else {
+                                            if(tarCampAttendeeObj.getStaffIC().equals(staffAccount.getUserId())){
+                                                tarCampAttendeeObj.printAttendees();
+                                            }
+                                        }
                                         break;
-                                    case 11:
-                                        System.out.println("do case 11");
+                                    case 11: // View camp committee members
+                                        System.out.println("Please enter the name of the camp:");
+                                        String tarCampComm = sc.nextLine();
+                                        Camp tarCampCommObj = camp_storage.getData(tarCampComm);
+                                        if(tarCampCommObj == null){
+                                            System.out.println("Camp do not exist!");
+                                        }
+                                        else {
+                                            if(tarCampCommObj.getStaffIC().equals(staffAccount.getUserId())){
+                                                tarCampCommObj.printCampComm();
+                                            }
+                                        }
                                         break;
                                     case 12:
-                                        System.out.println("do case 12");
+                                        // Generate performance report
+                                        // include the points of the camp committee members
+                                        System.out.println("Please enter the camp that you wish to generate performace report for");
+                                        String campReport = sc.nextLine();
+                                        // Generate preoformance report for campReport
                                         break;
-                                    case 13:
+                                    case 13: //Generate list of attendees or camp committee either in txt or csv format
+                                        System.out.println("Would you like to generate list of attendees or camp committee");
+                                        System.out.println("1) Generate list of attendees");
+                                        System.out.println("2) Generate list of camp committee");
+                                        int userChoice = sc.nextInt();
+                                        while(userChoice!= 1 && userChoice!=2){
+                                            System.out.println("Invalid choice. Please select again!");
+                                            userChoice = sc.nextInt();
+                                        }
+                                        sc.nextLine();
+                                        switch(userChoice){
+                                            String campNameToEnquire;
+                                            Camp campNameToEnquireObj;
+                                            case 1:
+                                                System.out.println("Please enter the camp name that you would like to enquire?");
+                                                campNameToEnquire = sc.nextLine();
+                                                campNameToEnquireObj = camp_storage.getData(campNameToEnquire);
+                                                if(campNameToEnquireObj == null){
+                                                    System.out.println("Camp do not exist");
+                                                }
+                                                else{
+                                                    //get attendees details
+                                                    System.out.println("Which output format will you like?");
+                                                    System.out.println(" 1) CSV file");
+                                                    System.out.println(" 2) TXT file");
+                                                    int outputFormatChoice = sc.nextInt();
+                                                    switch(outputFormatChoice){
+                                                        case 1:
+                                                            //output data in csv file
+                                                            break;
+                                                        case 2:
+                                                            // output data in txt file
+                                                            break;
+                                                    }
+                                                }
+                                                break;
+                                            case 2:
+                                                System.out.println("Please enter the camp name that you would like to enquire?");
+                                                campNameToEnquire = sc.nextLine();
+                                                campNameToEnquireObj = camp_storage.getData(campNameToEnquire);
+                                                if(campNameToEnquireObj == null){
+                                                    System.out.println("Camp do not exist");
+                                                }
+                                                else{
+                                                    //get camp comm details
+                                                    System.out.println("Which output format will you like?");
+                                                    System.out.println(" 1) CSV file");
+                                                    System.out.println(" 2) TXT file");
+                                                    int outputFormatChoice = sc.nextInt();
+                                                    switch(outputFormatChoice){
+                                                        case 1:
+                                                            //output data in csv file
+                                                            break;
+                                                        case 2:
+                                                            // output data in txt file
+                                                            break;
+                                                    }
+                                                }
+                                                break;
+                                        }
+                                        break;
+                                    case 14: // change password
                                         char[] userNewPasswordArr = console.readPassword("Please enter the new password:\n");
                                         String userNewPassword = new String(userNewPasswordArr);
                                         staffAccount.setPassword(userNewPassword);
                                         System.out.println("Password Changed Successfully");
                                         break;
-                                    case 14:
+                                    case 15: // logout
                                         System.out.println("Goodbye " + staffAccount.getName() + " !");
                                         break;
                                 }
@@ -356,10 +491,10 @@ public class CAMApp {
                     }
 
                     break;
-                case 2:
+                case 2: // student login
                     while (!log_in_successfully) {
                         System.out.println("Please enter your Student Username");
-                        String studentUser = sc.next();
+                        String studentUser = sc.nextLine();
                         char[] student_password_arr = console.readPassword("Please enter your Student Password\n");
                         String studentPassword = new String(student_password_arr);
                         StudentAccount studentAccount = student_storage.getData(studentUser);
@@ -372,74 +507,172 @@ public class CAMApp {
                             log_in_successfully = true;
                             int student_choice = 0;
                             System.out.println("Welcome " + studentAccount.getName());
-                            while(student_choice != 12)
+                            while(student_choice != 13)
                             {
-                                System.out.println("What would you like to do today");
-                                System.out.println("1) View list of camp available");
-                                System.out.println("2) View the remaining slots for a camp");
-                                System.out.println("3) Register for camp");
-                                System.out.println("4) Register for camp committee");
-                                System.out.println("5) Submit enquiries about a camp");
-                                System.out.println("6) View enquires made");
-                                System.out.println("7) Edit enquires made");
-                                System.out.println("8) Delete enquires made");
-                                System.out.println("9) See camps registered");
-                                System.out.println("10) Withdraw from camp");
-                                System.out.println("11) Change password");
-                                System.out.println("12) Log out");
+                                UiPrinter.printStudentMenu();
                                 student_choice = sc.nextInt();
                                 sc.nextLine();
                                 switch(student_choice){
-                                    case 1:
-                                        listOfCamps = camp_storage.getData();
-                                        for(Camp c : listOfCamps){
-                                            if(c.getUserGroup().equals(studentAccount.getFaculty()) && c.getVisibility())
-                                            {
-                                                camp_storage.printData(c);
+                                    case 1: //Print student profile
+                                        studentAccount.printProfile();
+                                        break;
+                                    case 2: // view list of camp available
+                                        camp_storage.printData(studentAccount);
+                                        break;
+                                    case 3: // view the remaining slots for a camp
+                                        System.out.println("Which camp would you like to enquire?");
+                                        String userCamp = sc.nextLine();
+                                        Camp userCampObj = camp_storage.getData(userCamp);
+                                        if ( userCampObj == null){
+                                            System.out.println("Camp do not exist!");
+                                        }
+                                        else{
+                                            if(userCampObj.getVisibility() && (userCampObj.getUserGroup().equals(studentAccount.getFaculty()) || userCampObj.getUserGroup().equals("NTU"))){
+                                                System.out.println("Total slots remaining is " + camp_storage.getData(userCamp).getRemaindingSlots());
+                                            }
+                                            else{
+                                                System.out.println("This camp is not available to you!");
+
+                                            }
+                                    }
+                                        break;
+                                    case 4: // register for camps
+                                        System.out.println("Which camp would you like to register for?");
+                                        String userRegCamp = sc.nextLine();
+                                        Camp userRegCampObj = camp_storage.getData(userRegCamp);
+                                        if( userRegCampObj == null || !userRegCampObj.getVisibility()){
+                                            System.out.println("Camp do not exist!");
+                                        }
+                                        else {
+                                            if ((userRegCampObj.getUserGroup().equals(studentAccount.getFaculty()) || userRegCampObj.getUserGroup().equals("NTU"))){
+                                                if (new Date().before(userRegCampObj.getRegDeadline())){
+                                                    if(userRegCampObj.getRemaindingSlots() > 0){
+                                                        if(!studentAccount.getCamps().contains(userRegCamp)){
+                                                            if (!userRegCampObj.getWithdrawalList().contains(studentAccount.getUserId())){
+                                                                if(!studentAccount.getCampCommOf().equals(userRegCamp)){
+                                                                    // Check if dates overlap for
+                                                                    ArrayList<String> campsRegistered = studentAccount.getCampsRegistered();
+                                                                    boolean overlaps = false;
+                                                                    for (String cString : campsRegistered) {
+                                                                        Camp c = camp_storage.getData(cString);
+                                                                        if (DateUtility.checkOverlap(userRegCampObj.getStartDate(), userRegCampObj.getEndDate(),
+                                                                                c.getStartDate(), c.getEndDate())) {
+                                                                            System.out.println("Camp " + c.getName() + " overlaps with this camp!");
+                                                                            overlaps = true;
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                    if (!overlaps && !studentAccount.getCampCommOf().equals("")) {
+                                                                        Camp campCommCamp = camp_storage.getData(studentAccount.getCampCommOf());
+                                                                        if (DateUtility.checkOverlap(userRegCampObj.getStartDate(), userRegCampObj.getEndDate(),
+                                                                                campCommCamp.getStartDate(), campCommCamp.getEndDate())) {
+                                                                            System.out.println("Camp " + campCommCamp.getName() + " overlaps with this camp!");
+                                                                            overlaps = true;
+                                                                        }
+                                                                    }
+                                                                    //
+                                                                    if (!overlaps) {
+                                                                        // All checks passed, add student to camp
+                                                                        camp_storage.getData(userRegCamp).addAttendees(studentAccount.getUserId());
+                                                                        studentAccount.addCamps(camp_storage.getData(userRegCamp).getName());
+                                                                        System.out.println("Registration successful!");
+                                                                    }
+                                                                }
+                                                                else{
+                                                                    System.out.println("Cannot register for this camp as you are already camp committee for this camp!");
+                                                                }
+                                                            }
+                                                            else{
+                                                                System.out.println("You have withdrawn from this camp before!");
+                                                            }
+                                                        }
+                                                        else{
+                                                            System.out.println("You have already registered for this camp!");
+                                                            }
+                                                    }
+                                                    else{
+                                                        System.out.println("There is no more slots in this camp!");
+                                                        }
+                                                }
+                                                else {
+                                                    System.out.println("It is past the registration dateline!");
+                                                }
+                                            }
+                                            else{
+                                                System.out.println("This camp is not open to your faculty");
                                             }
                                         }
                                         break;
-                                    case 2:
-                                        System.out.println("Which camp would you like to enquire?");
-                                        String userCamp = sc.nextLine();
-                                        if (camp_storage.getData(userCamp) == null){
-                                            System.out.println("Camp do not exist!");
+                                    case 5: // register for camp comm
+                                        if (studentAccount.getCampCommOf().isEmpty()){
+                                            System.out.println("Please enter the camp that you wish to register for camp comm");
+                                            String campCommCamp = sc.nextLine();
+                                            Camp campCommCampObj = camp_storage.getData(campCommCamp);
+                                            if (campCommCampObj == null) {
+                                                System.out.println("Camp do not exist");
+                                            }
+                                            else if (campCommCampObj.getRemaindingSlotsCampComm() > 0) {
+                                                // Check if withdraw before
+                                                if (campCommCampObj.getWithdrawalList().contains(studentAccount.getUserId())) {
+                                                    System.out.println("Cannot register as camp committee as you have withdrawn from camp");
+                                                } else {
+                                                    // Check if already attendee
+                                                    if(studentAccount.getCampsRegistered().contains(campCommCamp)){
+                                                        System.out.println("Cannot register as camp committee! Already Attendee");
+                                                    }
+                                                    else {
+                                                        // Check if date overlaps with registered camps
+                                                        ArrayList<String> campsRegistered = studentAccount.getCampsRegistered();
+                                                        boolean overlaps = false;
+                                                        for (String cString : campsRegistered) {
+                                                            Camp c = camp_storage.getData(cString);
+                                                            if (DateUtility.checkOverlap(campCommCampObj.getStartDate(), campCommCampObj.getEndDate(),
+                                                                    c.getStartDate(), c.getEndDate())) {
+                                                                System.out.println("Camp " + c.getName() + " overlaps with this camp!");
+                                                                overlaps = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                        // All checks passed
+                                                        if (!overlaps) {
+                                                            campCommCampObj.addCampComms(studentAccount.getUserId());
+                                                            studentAccount.setCampCommOf(campCommCampObj.getName());
+                                                            System.out.println("You have successfully registered as a camp committee for the camp");
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else{
+                                                System.out.println("There is no more camp committee slots");
+                                            }
                                         }
                                         else{
-                                        System.out.println("Total slots reminding is " + camp_storage.getData(userCamp).getRemindingSlots());
-                                    }
-                                        break;
-                                    case 3:
-                                        System.out.println("Which camp would you like to register for?");
-                                        String userRegCamp = sc.nextLine();
-                                        if(camp_storage.getData(userRegCamp) == null){
-                                            System.out.println("Camp do not exist!");
-                                        }
-                                        else{
-                                            camp_storage.getData(userRegCamp).addAttendees(studentAccount.getName());
-                                            studentAccount.addCamps(camp_storage.getData(userRegCamp).getName());
-                                            System.out.println("Registration successful!");
+                                            System.out.println("You are already a camp committee of "+ studentAccount.getCampCommOf());
                                         }
                                         break;
-                                    case 4:
-                                        System.out.println("Do case 4");
-                                        break;
-                                    case 5:
+                                    case 6: // submit enquiries
                                         System.out.println("Which camp do you have enquiries about?");
                                         String userEnqCamp = sc.nextLine();
                                         if(camp_storage.getData(userEnqCamp) == null){
                                             System.out.println("Camp do not exist!");
                                         }
+                                        else if(camp_storage.getData(userEnqCamp).getName().equals(studentAccount.getCampCommOf())){
+                                            System.out.println("You are the camp committee member.");
+                                        }
                                         else{
                                             Camp enqCamp = camp_storage.getData(userEnqCamp);
-                                            if(enqCamp.getVisibility() == false || enqCamp.getUserGroup().equals(studentAccount.getFaculty()) == false){
+                                            if(!enqCamp.getVisibility() || (!enqCamp.getUserGroup().equals("NTU") &&
+                                                    !enqCamp.getUserGroup().equals(studentAccount.getFaculty()))){
                                                 System.out.println("Camp is not open for your faculty");
                                             }
                                             else{
-                                                System.out.println("Please enter your enquiry");
+                                                System.out.println("Please enter your enquiry (no blanks)");
                                                 String userEnq = sc.nextLine();
-                                                Enquiry newEnquiry = new Enquiry(studentAccount.getName(), userEnq, userEnqCamp);
-                                                newEnquiry.setEnquiryId(Integer.toString(enquiry_storage.generateID()));
+                                                if (userEnq.isBlank()) {
+                                                    System.out.println("No enquiry created (no blanks)");
+                                                    break;
+                                                }
+                                                Enquiry newEnquiry = new Enquiry(studentAccount.getUserId(), userEnq, userEnqCamp, IdGenerator.generateID(enquiry_storage));
                                                 enquiry_storage.addItem(newEnquiry);
                                                 System.out.println("Enquiry submitted successfully");
                                                 System.out.println("Enquiry ID is " + newEnquiry.getEnquiryId());
@@ -447,27 +680,37 @@ public class CAMApp {
                                             }
                                         }
                                         break;
-                                    case 6:
-                                        enquiry_storage.printSenderData(studentAccount.getName());
+                                    case 7: // view enquires made
+                                        enquiry_storage.printSenderData(studentAccount.getUserId());
                                         break;
-                                    case 7:
+                                    case 8: // edit enquires made
                                         System.out.println("Which enquiry would you like to edit? Enter your enquiryID");
-                                        String userEditEnq = sc.next();
+                                        String userEditEnq = sc.nextLine();
                                         Enquiry editEnq = enquiry_storage.getData(userEditEnq);
-                                        if(editEnq.getSender().equals(studentAccount.getName())){
-                                            EditEnquiries editEnquiries = new EditEnquiries();
-                                            editEnquiries.perform(editEnq);
+                                        if(editEnq.getSender().equals(studentAccount.getUserId())) {
+                                            if (editEnq.getResponse()==null && editEnq.getResponder()==null) {
+                                                System.out.println("What is your new enquiry (no blanks)?");
+                                                String newEnq = sc.nextLine();
+                                                if(newEnq.isBlank()) {
+                                                    System.out.println("No enquiry edited (no blanks)");
+                                                    break;
+                                                }
+                                                editEnq.setMessage(newEnq);
+                                                System.out.println("New enquiry has been saved");
+                                            }
+                                            else {
+                                                System.out.println("Error. Enquiry has been responded to.");
+                                            }
                                         }
-                                        else{
-
+                                        else {
                                             System.out.println("You are not the sender of this enquiry");
                                         }
                                         break;
-                                    case 8:
+                                    case 9: // delete enquires made
                                         System.out.println("Which enquiry would you like to delete? Enter your enquiryID");
                                         String userdeleteEnq = sc.next();
                                         Enquiry deleteEnq = enquiry_storage.getData(userdeleteEnq);
-                                        if(deleteEnq.getSender().equals(studentAccount.getName())){
+                                        if(deleteEnq.getSender().equals(studentAccount.getUserId())){
                                             enquiry_storage.deleteItem(deleteEnq);
                                             System.out.println("Enquiry deleted successfully");
                                         }
@@ -476,39 +719,158 @@ public class CAMApp {
                                             System.out.println("You are not the sender of this enquiry");
                                         }
                                         break;
-                                    case 9:
-                                        ArrayList<String> registedCamp = studentAccount.getCamps();
-                                        if(registedCamp.isEmpty())
-                                        {
-                                            System.out.println("You have not registered for any camp");
-                                        }
-                                        else {
-                                            System.out.println("You have registered for the following camp: ");
-                                            for (String s : registedCamp) {
-                                                System.out.println(s);
-                                            }
-                                        }
-                                        break;
-                                    case 10:
+                                    case 10: // withdraw from camp
                                         System.out.println("Please enter the name of the camp that you wish to withdraw");
                                         String campWithdraw = sc.nextLine();
+                                        Camp campToWithdrawObj = camp_storage.getData(campWithdraw);
                                         boolean result = studentAccount.removeCamps(campWithdraw);
                                         if (result){
                                             System.out.println("Camp Removed Successfully");
-                                            camp_storage.getData(campWithdraw).removeAttendees(studentAccount.getName());
-                                            camp_storage.getData(campWithdraw).addWithdrawalList(studentAccount.getName());
+                                            campToWithdrawObj.removeAttendees(studentAccount.getUserId());
                                         }
                                         else{
-                                            System.out.println("You did not register for this camp");
+                                            if(studentAccount.getCampCommOf().equals(campWithdraw)){
+                                                System.out.println("You are the Camp Committee of this camp!");
+                                            }
+                                            else{
+                                                System.out.println("You did not register for this camp");
+                                            }
                                         }
                                         break;
-                                    case 11:
+                                    case 11: // change password
                                         char[] userNewPasswordArr = console.readPassword("Please enter the new password:\n");
                                         String userNewPassword = new String(userNewPasswordArr);
                                         studentAccount.setPassword(userNewPassword);
                                         System.out.println("Password Changed Successfully");
                                         break;
-                                    case 12:
+                                    case 12: // enter camp committee mode
+                                        String studentCampComm = studentAccount.getCampCommOf();
+                                        if (studentCampComm.equals("")){
+                                            System.out.println("You are not a Camp Committee member!");
+                                        }
+                                        else {
+                                            Camp studentCampCommObj = camp_storage.getData(studentCampComm);
+                                            int studentCampCommChoice = 0;
+                                            while(studentCampCommChoice != 10) {
+                                                UiPrinter.printCampCommitteeMenu();
+                                                studentCampCommChoice = sc.nextInt();
+                                                sc.nextLine();
+                                                switch (studentCampCommChoice) {
+                                                    // 1) View camps that you have registered
+                                                    case 1:
+                                                        studentAccount.printProfile();
+                                                        break;
+                                                    // 2) Submit suggestions for camps
+                                                    case 2:
+                                                        System.out.println("Please enter the suggestion for " + studentCampCommObj.getName() + " (no blanks)");
+                                                        String userSuggestion = sc.nextLine();
+                                                        if(userSuggestion.isBlank()) {
+                                                            System.out.println("No suggestion created (no blanks)");
+                                                            break;
+                                                        }
+                                                        // add in the suggestion ID
+                                                        suggestion_storage.addItem(new Suggestion(studentAccount.getUserId(), userSuggestion, IdGenerator.generateID(suggestion_storage), studentAccount.getCampCommOf()));
+                                                        studentAccount.addPoints();
+                                                        System.out.println(("Suggestion created successfully"));
+                                                        break;
+                                                    // 3) View suggestion
+                                                    case 3:
+                                                        ArrayList<Suggestion> userSuggestions = suggestion_storage.getData();
+                                                        boolean no_suggestion = true;
+                                                        for (Suggestion suggestion : userSuggestions){
+                                                            if(suggestion.getSuggestor().equals(studentAccount.getUserId()))
+                                                            {
+                                                                no_suggestion = false;
+                                                                System.out.println("The suggestion ID is " + suggestion.getSuggestionId());
+                                                                System.out.println("The suggestion is " + suggestion.getSuggestion());
+                                                                System.out.println("The process status is " + suggestion.getProcessed());
+                                                                System.out.println("The approval status is " + suggestion.getApproval() + "\n");
+                                                            }
+                                                        }
+                                                        if(no_suggestion){
+                                                            System.out.println("You do not have any suggestion");
+                                                        }
+                                                        break;
+                                                    // 4) Edit suggestion
+                                                    case 4:
+                                                        System.out.println("Which suggestion would you like to edit? Enter your suggestionID (no blanks)");
+                                                        String userEditSuggestion = sc.nextLine();
+                                                        if(userEditSuggestion.isBlank()) {
+                                                            System.out.println("No suggestion edited (no blanks)");
+                                                            break;
+                                                        }
+                                                        Suggestion editSuggestion = suggestion_storage.getData(userEditSuggestion);
+                                                        if(editSuggestion.getSuggestor().equals(studentAccount.getUserId())) {
+                                                            if (editSuggestion.getProcessed()) {
+                                                                System.out.println("Suggestion has been processed already");
+                                                            } else {
+                                                                System.out.println("What is your new suggestion?");
+                                                                String new_suggest = sc.nextLine();
+                                                                editSuggestion.setSuggestion(new_suggest);
+                                                                System.out.println("New suggestion has been saved");
+                                                            }
+                                                        }
+                                                        else{
+                                                            System.out.println("You are not the suggester of this suggestion");
+                                                        }
+                                                        break;
+                                                    // 5) Delete suggestion
+                                                    case 5:
+                                                        System.out.println("Which suggestion would you like to delete? Enter your suggestionID");
+                                                        String userDelSuggest = sc.next();
+                                                        Suggestion deleteSuggest = suggestion_storage.getData(userDelSuggest);
+                                                        if(deleteSuggest.getSuggestor().equals(studentAccount.getUserId())){
+                                                            suggestion_storage.deleteItem(deleteSuggest);
+                                                            System.out.println("Suggestion deleted successfully");
+                                                        }
+                                                        else{
+                                                            System.out.println("You are not the suggester of this suggestion");
+                                                        }
+                                                        break;
+                                                    case 6: // View enquiries
+                                                        enquiry_storage.printAllData(studentCampCommObj.getName());
+                                                        break;
+                                                    case 7: // Reply enquiries
+                                                        enquiry_storage.printAllData(studentCampCommObj.getName());
+                                                        System.out.println("Which enquiry would you like to respond? Enter the enquiry ID");
+                                                        String tarEnquiryId = sc.nextLine();
+                                                        Enquiry tarEnquiry = enquiry_storage.getData(tarEnquiryId);
+                                                        if(tarEnquiry == null){
+                                                            System.out.println("Enquiry could not be found");
+                                                        }
+                                                        else {
+                                                            // check if there is response
+                                                            if (tarEnquiry.getResponse() != null) {
+                                                                System.out.println("There is already a response");
+                                                            }
+                                                            // check if user sent enquiry before becoming camp comm member
+                                                            else if (tarEnquiry.getSender().equals(studentAccount.getUserId())) {
+                                                                System.out.println("You are the sender of this enquiry");
+                                                            }
+                                                            else {
+                                                                System.out.println("Please enter your response:");
+                                                                String response = sc.nextLine();
+                                                                tarEnquiry.setResponse(response);
+                                                                tarEnquiry.setResponder(studentAccount.getUserId());
+                                                                studentAccount.addPoints();
+                                                            }
+                                                        }
+                                                        break;
+
+                                                    case 8: // Generate a report of the list of students attending
+                                                        System.out.println("do case 8");
+                                                        break;
+                                                    case 9: // Print camp information
+                                                        UiPrinter.printCampInformation(studentCampCommObj);
+                                                        break;
+                                                    case 10: // Return back to student Mode
+                                                        System.out.println("Returning to student mode...");
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case 13: // exit
                                         System.out.println("Goodbye " + studentAccount.getName() + " !");
                                         break;
                                 }

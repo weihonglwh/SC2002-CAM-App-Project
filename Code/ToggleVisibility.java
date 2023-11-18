@@ -1,6 +1,6 @@
 public class ToggleVisibility implements EditOperationForStaff {
     public void perform(Camp camp) {
-        if(camp.getAttendees() == null && camp.getCampComms()==null){
+        if(camp.getAttendees().isEmpty() && camp.getCampComms().isEmpty()) {
             camp.setVisibility(!camp.getVisibility());
             System.out.println("Visibility changed successfully");
         }

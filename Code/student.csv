@@ -1,12 +1,12 @@
-Name,Email,Faculty,Password
-CHERN,YCHERN@e.ntu.edu.sg,SCSE,123456
-KOH,KOH1@e.ntu.edu.sg,ADM,123456
-BRANDON,BR015@e.ntu.edu.sg,EEE,123456
-CALVIN,CT113@e.ntu.edu.sg,SCSE,123456
-CHAN,YCN019@e.ntu.edu.sg,NBS,123456
-DENISE,DL007@e.ntu.edu.sg,SCSE,123456
-DONG,DON84@e.ntu.edu.sg,ADM,123456
-ERNEST,ELI34@e.ntu.edu.sg,EEE,123456
-LEE,LE51@e.ntu.edu.sg,SCSE,123456
-LIU,SL22@e.ntu.edu.sg,NBS,123456
-RAWAL,AKY013@e.ntu.edu.sg,SSS,123456
+Name,Email,Faculty,Password,Points,CampCompOf,CampsRegistered
+CHERN,YCHERN@e.ntu.edu.sg,SCSE,123456,0,,;
+KOH,KOH1@e.ntu.edu.sg,ADM,123456,0,,;
+BRANDON,BR015@e.ntu.edu.sg,EEE,123456,0,,;
+CALVIN,CT113@e.ntu.edu.sg,SCSE,123456,0,,;
+CHAN,YCN019@e.ntu.edu.sg,NBS,123456,0,,;
+DENISE,DL007@e.ntu.edu.sg,SCSE,123456,0,,;
+DONG,DON84@e.ntu.edu.sg,ADM,123456,0,,;
+ERNEST,ELI34@e.ntu.edu.sg,EEE,123456,0,,;
+LEE,LE51@e.ntu.edu.sg,SCSE,123456,4,z 1 only,;
+LIU,SL22@e.ntu.edu.sg,NBS,123456,0,,;
+RAWAL,AKY013@e.ntu.edu.sg,SSS,123456,0,,;

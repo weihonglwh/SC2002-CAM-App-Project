@@ -17,24 +17,24 @@ public class CSVCampWriter implements DataWriter{
             ArrayList<Camp> campList = s.getData();
             for (Camp camp : campList) {
                 // Prepare strings for attendees, campComms, and withdrawalList
-                String attendeesString = "";
-                String campCommsString = "";
-                String withdrawalListString = "";
+                StringBuilder attendeesString = new StringBuilder();
+                StringBuilder campCommsString = new StringBuilder();
+                StringBuilder withdrawalListString = new StringBuilder();
                 for (String attendee : camp.getAttendees()) {
-                    attendeesString += attendee + ";";
+                    attendeesString.append(attendee).append(";");
                 }
                 for (String campComm : camp.getCampComms()) {
-                    campCommsString += campComm + ";";
+                    campCommsString.append(campComm).append(";");
                 }
                 for (String withdrawal : camp.getWithdrawalList()) {
-                    withdrawalListString += withdrawal + ";";
+                    withdrawalListString.append(withdrawal).append(";");
                 }
 
                 // Convert visibility to string
                 String visibilityString = camp.getVisibility() ? "1" : "0";
 
-                bw.write(camp.getName() + "," + DateConverter.dateToString(camp.getStartDate()) + "," +
-                 DateConverter.dateToString(camp.getEndDate()) + "," + DateConverter.dateToString(camp.getRegDeadline()) + "," 
+                bw.write(camp.getName() + "," + DateUtility.dateToString(camp.getStartDate()) + "," +
+                 DateUtility.dateToString(camp.getEndDate()) + "," + DateUtility.dateToString(camp.getRegDeadline()) + ","
                  + camp.getUserGroup() + "," + camp.getLocation() + "," + camp.getTotalSlots() + "," + camp.getCampCommSlots() + "," +
                  "\"" + camp.getDescription() + "\"" + "," + camp.getStaffIC() + "," + attendeesString + "," 
                  + campCommsString + "," + visibilityString + "," + withdrawalListString);

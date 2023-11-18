@@ -7,7 +7,7 @@ public class EditRegDeadline implements EditOperationForStaff {
         // Getting user input
         System.out.println("Enter the new registration deadline (dd/mm/yyyy): ");
         String regDeadlineString = scanner.nextLine();
-        Date newRegDeadline = DateConverter.stringToDate(regDeadlineString);
+        Date newRegDeadline = DateUtility.stringToDate(regDeadlineString);
         if(newRegDeadline.after(camp.getStartDate())){
             System.out.println("Regisration deadline cannot be after start date");
             return;

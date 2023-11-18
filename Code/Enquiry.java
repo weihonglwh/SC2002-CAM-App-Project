@@ -1,21 +1,21 @@
 public class Enquiry {
     private String sender;
     private String message;
-    private String enquiryID;
+    private int enquiryID;
     private String response;
     private String responder;
     private String campName;
 
-    public Enquiry(String sender, String message, String campName) {
+    public Enquiry(String sender, String message, String campName, int enquiryID) {
         this.sender = sender;
         this.message = message;
-        this.enquiryID = null;
+        this.enquiryID = enquiryID;
         this.response = null;
         this.responder = null;
         this.campName = campName;
     }
 
-    public Enquiry(String sender, String message, String enquiryID, String response, String responder, String campName) {
+    public Enquiry(String sender, String message, int enquiryID, String response, String responder, String campName) {
         this.sender = sender;
         this.message = message;
         this.enquiryID = enquiryID;
@@ -24,12 +24,11 @@ public class Enquiry {
         this.campName = campName;
     }
 
-    public String getEnquiryId(){
+    public int getEnquiryId(){
         return enquiryID;
     }
-    
 
-    public void setEnquiryId(String enquiryID){
+    public void setEnquiryId(int enquiryID){
         this.enquiryID = enquiryID;
     }
 

@@ -17,8 +17,14 @@ public class CSVStudentWriter implements DataWriter{
             // Write the data
             ArrayList<StudentAccount> studentList = s.getData();
             for (StudentAccount student : studentList) {
+                ArrayList<String> campsAttending = student.getCampsRegistered();
+                StringBuilder campsAttendingString = new StringBuilder();
+                for (String camp : campsAttending) {
+                    campsAttendingString.append(camp).append(";");
+                }
                 bw.write(student.getName() + "," + student.getUserId()+"@e.ntu.edu.sg" + "," +
-                 student.getFaculty() + "," + student.getPassword());
+                 student.getFaculty() + "," + student.getPassword() + "," + student.getPoints() + "," +
+                 student.getCampCommOf() + "," + campsAttendingString);
                 bw.newLine();
             }
             bw.close();

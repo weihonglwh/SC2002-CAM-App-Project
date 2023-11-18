@@ -27,13 +27,14 @@ public class CSVEnquiryReader extends CSVReader{
                 }
                 // Trim to remove whitespace
                 String id = enquiryDetails[0].trim();
+                int idInt = Integer.parseInt(id);
                 String sender = enquiryDetails[1].trim();
                 String message = enquiryDetails[2].trim().replace("\"", ""); // Remove quotes from message
                 String response = enquiryDetails[3].trim().replace("\"", ""); // Response can be null initially
                 String responder = enquiryDetails[4].trim(); // Responder can be null initially
                 String campName = enquiryDetails[5].trim();
                 //System.out.println("Adding enquiry: " + id + " " + sender + " " + message + " " + response + " " + responder + " " + campName);
-                s.addItem(new Enquiry(sender, message, id, response, responder, campName));
+                s.addItem(new Enquiry(sender, message, idInt, response, responder, campName));
             }
         }
         catch (Exception e) {
@@ -41,15 +42,4 @@ public class CSVEnquiryReader extends CSVReader{
             System.exit(3);
         }
     }
-
-    // public static void main(String[] args) {
-    //     CSVEnquiryReader reader = new CSVEnquiryReader();
-    //     EnquiryStorage storage = new EnquiryStorage();
-    //     reader.populateStorage(storage);
-    //     ArrayList<Enquiry> enquiries = storage.getData();
-    //     for (Enquiry e : enquiries) {
-    //         System.out.println(e.getEnquiryId() + " " + e.getSender() + " " + e.getMessage() + " " + e.getResponse() + " " + e.getResponder());
-    //         System.out.println();
-    //     }
-    // }
 }
