@@ -806,57 +806,68 @@ public class CAMApp {
                                                         }
                                                         break;
 
-                                                    case 8: // Generate a report of the list of students attending
-                                                        System.out.println("Would you like to generate a report on list of attendees or camp committee");
-                                                        System.out.println(" 1) Generate report on attendees");
-                                                        System.out.println(" 2) Generate report on camp committee");
-                                                        int campCommReportSelection = sc.nextInt();
-                                                        int campCommReportOutput;
-                                                        while(campCommReportSelection != 1 && campCommReportSelection != 2){
-                                                            System.out.println("Invalid choice. Please select again");
-                                                            campCommReportSelection = sc.nextInt();
+                                                    case 8:  //Generate list of attendees or camp committee either in txt or csv format
+                                                        System.out.println("Would you like to generate list of attendees or camp committee");
+                                                        System.out.println("1) Generate list of attendees only");
+                                                        System.out.println("2) Generate list of camp committee only");
+                                                        System.out.println("3) Generate list without filters");
+                                                        int filterChoice = sc.nextInt();
+                                                        while(filterChoice != 1 && filterChoice !=2 && filterChoice !=3) {
+                                                            System.out.println("Invalid choice. Please select again!");
+                                                            filterChoice = sc.nextInt();
                                                         }
                                                         sc.nextLine();
-                                                        switch(campCommReportSelection) {
+                                                        System.out.println("Which output format will you like?");
+                                                        System.out.println("1) CSV file");
+                                                        System.out.println("2) TXT file");
+                                                        int outputFormatChoice = sc.nextInt();
+                                                        while(outputFormatChoice!=1 && outputFormatChoice!=2){
+                                                            System.out.println("Invalid choice. Please select again");
+                                                            outputFormatChoice = sc.nextInt();
+                                                        }
+                                                        sc.nextLine();
+                                                        System.out.println("Please enter the name of the file (without file extension).");
+                                                        String fileName = sc.nextLine();
+                                                        switch(filterChoice){
                                                             case 1:
-                                                                //get details on attendees
-                                                                System.out.println("How would you like to output");
-                                                                System.out.println(" 1) CSV");
-                                                                System.out.println(" 2) TXT");
-                                                                campCommReportOutput = sc.nextInt();
-                                                                //reference to the camp object by studentCampCommObj
-                                                                while (campCommReportOutput != 1 && campCommReportOutput != 2) {
-                                                                    System.out.println("Invalid choice. Please select again");
-                                                                    campCommReportOutput = sc.nextInt();
-                                                                }
-                                                                sc.nextLine();
-                                                                switch (campCommReportOutput) {
+                                                                switch(outputFormatChoice){
                                                                     case 1:
-                                                                        // output in csv format
+                                                                        //output data in csv file
+                                                                        fileName = fileName + ".csv";
+                                                                        studentAccount.generateAttendeeListCSV(new AttendeeFilter(), campStorage, studentStorage, fileName, studentAccount);
                                                                         break;
                                                                     case 2:
-                                                                        // output in txt format
+                                                                        // output data in txt file
+                                                                        fileName = fileName + ".txt";
+                                                                        studentAccount.generateAttendeeListTXT(new AttendeeFilter(), campStorage, studentStorage, fileName, studentAccount);
                                                                         break;
                                                                 }
                                                                 break;
                                                             case 2:
-                                                                // get details on camp committee
-                                                                System.out.println("How would you like to output");
-                                                                System.out.println(" 1) CSV");
-                                                                System.out.println(" 2) TXT");
-                                                                campCommReportOutput = sc.nextInt();
-                                                                //reference to the camp object by studentCampCommObj
-                                                                while (campCommReportOutput != 1 && campCommReportOutput != 2) {
-                                                                    System.out.println("Invalid choice. Please select again");
-                                                                    campCommReportOutput = sc.nextInt();
-                                                                }
-                                                                sc.nextLine();
-                                                                switch (campCommReportOutput) {
+                                                                switch(outputFormatChoice){
                                                                     case 1:
-                                                                        // output in csv format
+                                                                        //output data in csv file
+                                                                        fileName = fileName + ".csv";
+                                                                        studentAccount.generateAttendeeListCSV(new CampCommFilter(), campStorage, studentStorage, fileName, studentAccount);
                                                                         break;
                                                                     case 2:
-                                                                        // output in txt format
+                                                                        // output data in txt file
+                                                                        fileName = fileName + ".txt";
+                                                                        studentAccount.generateAttendeeListTXT(new CampCommFilter(), campStorage, studentStorage, fileName, studentAccount);
+                                                                        break;
+                                                                }
+                                                                break;
+                                                            case 3: // No filter
+                                                                switch(outputFormatChoice){
+                                                                    case 1:
+                                                                        //output data in csv file
+                                                                        fileName = fileName + ".csv";
+                                                                        studentAccount.generateAttendeeListCSV(null, campStorage, studentStorage, fileName, studentAccount);
+                                                                        break;
+                                                                    case 2:
+                                                                        // output data in txt file
+                                                                        fileName = fileName + ".txt";
+                                                                        studentAccount.generateAttendeeListTXT(null, campStorage, studentStorage, fileName, studentAccount);
                                                                         break;
                                                                 }
                                                                 break;
