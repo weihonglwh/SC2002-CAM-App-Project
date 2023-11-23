@@ -188,10 +188,42 @@ public class CAMApp {
                                                     UiPrinter.printStaffEditMenu();
                                                     staffEditchoice = sc.nextInt();
                                                     sc.nextLine();
-
-                                                    staffAccount.editCamp(staffEditchoice, editcampObj);
                                                 }
-                                            } else {
+                                                switch (staffEditchoice) {
+                                                    case 1: // edit start date
+                                                        staffAccount.editCamp(editcampObj, new EditStartDate());
+                                                        break;
+
+                                                    case 2: // edit end date
+                                                        staffAccount.editCamp(editcampObj, new EditEndDate());
+                                                        break;
+
+                                                    case 3: // edit registration deadline
+                                                        staffAccount.editCamp(editcampObj, new EditRegDeadline());
+                                                        break;
+
+                                                    case 4: // edit location
+                                                        staffAccount.editCamp(editcampObj, new EditLocation());
+                                                        break;
+
+                                                    case 5: // edit description
+                                                        staffAccount.editCamp(editcampObj, new EditDescription());
+                                                        break;
+
+                                                    case 6: // toggle visibility
+                                                        staffAccount.editCamp(editcampObj, new ToggleVisibility());
+                                                        break;
+
+                                                    case 7: // exit edit page
+                                                        System.out.println("Exiting edit page");
+                                                        break;
+
+                                                    default:
+                                                        System.out.println("Invalid choice. Please enter a valid option.");
+                                                        break;
+                                                }
+                                            }
+                                            else {
                                                 System.out.println("Error... you are not the staff in charge of this camp.");
                                             }
                                         }

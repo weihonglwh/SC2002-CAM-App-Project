@@ -35,39 +35,11 @@ public class StaffAccount extends UserAccount {
         }
     }
 
-    public void editCamp(int staff_editchoice, Camp editcamp_obj) {
-        switch (staff_editchoice) {
-            case 1: // edit start date
-                editcamp_obj.editCamp(new EditStartDate());
-                break;
-
-            case 2: // edit end date
-                editcamp_obj.editCamp(new EditEndDate());
-                break;
-
-            case 3: // edit registration deadline
-                editcamp_obj.editCamp(new EditRegDeadline());
-                break;
-
-            case 4: // edit location
-                editcamp_obj.editCamp(new EditLocation());
-                break;
-
-            case 5: // edit description
-                editcamp_obj.editCamp(new EditDescription());
-                break;
-
-            case 6: // toggle visibility
-                editcamp_obj.editCamp(new ToggleVisibility());
-                break;
-
-            case 7: // exit edit page
-                System.out.println("Exiting edit page");
-                break;
-
-            default:
-                System.out.println("Invalid choice. Please enter a valid option.");
-                break;
+    public void editCamp(Camp campToBeEdited, EditOperationForStaff editOperationForStaff) {
+        if (campToBeEdited == null || editOperationForStaff == null) {
+            System.out.println("Invalid arguments");
+            return;
         }
+        campToBeEdited.editCamp(editOperationForStaff);
     }
 }
