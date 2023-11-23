@@ -2,26 +2,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Dictionary;
 
-/*
-    Columns:
-    1. Camp Name
-    2. Start Date
-    3. End Date
-    4. Registration Deadline
-    5. User Group
-    6. Location
-    7. Total Slots
-    8. Camp Comm Slots
-    9. Description
-    10. Staff IC
-    11. Visibility
-    12. Withdrawal List
-    13. Participant Name
-    14. Role
- */
-
-public class AttendeeListCSVWriter {
-    public static void writeHeader(String fileName) {
+public class AttendeeListCSVWriter implements AttendeeListWriter{
+    public void writeHeader(String fileName) {
         try {
             FileWriter fw = new FileWriter(fileName);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -35,13 +17,13 @@ public class AttendeeListCSVWriter {
         }
     }
 
-    public static void writeData(String fileName, ArrayList<Dictionary<String, String>> nameAndRoles, Camp c, Filter filter){
+    public void writeData(String fileName, ArrayList<Dictionary<String, String>> nameAndRoles, Camp c, Filter filter){
         try{
             FileWriter fw = new FileWriter(fileName, true);
             BufferedWriter bw = new BufferedWriter(fw);
             // Apply filter
             if (filter != null) {
-                //nameAndRoles = filter.performFilter(nameAndRoles);
+                nameAndRoles = filter.performFilter(nameAndRoles);
             }
             // Prepare withdrawal list
             StringBuilder withdrawalList = new StringBuilder();

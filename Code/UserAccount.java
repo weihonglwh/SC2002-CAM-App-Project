@@ -48,13 +48,61 @@ public abstract class UserAccount {
         this.faculty = faculty;
     };
 
-    public void generateAttendeeListCSV(Filter filter, CampStorage campStorage, StudentStorage studentStorage, String fileName) {
-        ArrayList<Camp> campsByStaff = ReportPrepper.findCampsByStaff(userId, campStorage);
-        AttendeeListCSVWriter.writeHeader(fileName + ".csv");
-        for (Camp camp : campsByStaff) {
-            ArrayList<Dictionary<String, String>> namesAndRoles = ReportPrepper.buildDictionary(camp, studentStorage);
-            AttendeeListCSVWriter.writeData(fileName + ".csv", namesAndRoles, camp, filter);
+    public void generateAttendeeListCSV(Filter filter, CampStorage campStorage, StudentStorage studentStorage, String fileName, UserAccount accountType) {
+        AttendeeListCSVWriter writer = new AttendeeListCSVWriter();
+        if (accountType instanceof StaffAccount) {
+            ArrayList<Camp> campsByStaff = ReportPrepper.findCampsByStaff(userId, campStorage);
+            writer.writeHeader(fileName);
+            for (Camp camp : campsByStaff) {
+                ArrayList<Dictionary<String, String>> namesAndRoles = ReportPrepper.buildDictionary(camp, studentStorage);
+                writer.writeData(fileName, namesAndRoles, camp, filter);
+            }
         }
-        System.out.println("Attendee list outputted to " + fileName + ".csv" + " successfully.");
+        else if (accountType instanceof StudentAccount) {
+            // Check if student is camp committee
+            StudentAccount studentAccount = (StudentAccount) accountType;
+            String campCommCamp = studentAccount.getCampCommOf();
+            if (campCommCamp.equals("")) {
+                System.out.println("You are not a camp committee of any camp.");
+                return;
+            }
+            else {
+                writer.writeHeader(fileName);
+                Camp camp = campStorage.getData(campCommCamp);
+                ArrayList<Dictionary<String, String>> namesAndRoles = ReportPrepper.buildDictionary(camp, studentStorage);
+                writer.writeData(fileName, namesAndRoles, camp, filter);
+            }
+        }
+        System.out.println("Attendee list outputted to " + fileName + " successfully.");
+    }
+
+    public void generateAttendeeListTXT(Filter filter, CampStorage campStorage, StudentStorage studentStorage, String fileName, UserAccount accountType) {
+        AttendeeListTXTWriter writer = new AttendeeListTXTWriter();
+        if (writer.fileExists(fileName)) {
+            System.out.println("File already exists. Please choose another file name.");
+            return;
+        }
+        if (accountType instanceof StaffAccount) {
+            ArrayList<Camp> campsByStaff = ReportPrepper.findCampsByStaff(userId, campStorage);
+            for (Camp camp : campsByStaff) {
+                ArrayList<Dictionary<String, String>> namesAndRoles = ReportPrepper.buildDictionary(camp, studentStorage);
+                writer.writeData(fileName, namesAndRoles, camp, filter);
+            }
+        }
+        else if (accountType instanceof StudentAccount) {
+            // Check if student is camp committee
+            StudentAccount studentAccount = (StudentAccount) accountType;
+            String campCommCamp = studentAccount.getCampCommOf();
+            if (campCommCamp.equals("")) {
+                System.out.println("You are not a camp committee of any camp.");
+                return;
+            }
+            else {
+                Camp camp = campStorage.getData(campCommCamp);
+                ArrayList<Dictionary<String, String>> namesAndRoles = ReportPrepper.buildDictionary(camp, studentStorage);
+                writer.writeData(fileName, namesAndRoles, camp, filter);
+            }
+        }
+        System.out.println("Attendee list outputted to " + fileName + " successfully.");
     }
 }

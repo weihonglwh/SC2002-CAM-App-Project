@@ -94,6 +94,35 @@ public class EnquiryStorage extends Storage {
             System.exit(0);
         }
     }
+
+    public void populateData(CSVReader reader) {
+        ArrayList<String> enquiryData = reader.performRead("enquiry.csv");
+        try {
+            for (String enquiry : enquiryData) { // Iterate through each line
+                String[] enquiryDetails = enquiry.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1); // regex to prevent splitting commas in messages
+                // Check if id/sender/message/camp name is empty
+                if (enquiryDetails[0].isBlank() || enquiryDetails[1].isBlank()
+                        || enquiryDetails[2].trim().replace("\"", "").isBlank()
+                        || enquiryDetails[5].trim().replace("\"", "").isBlank()) {
+                    throw new Exception();
+                }
+                // Trim to remove whitespace
+                String id = enquiryDetails[0].trim();
+                int idInt = Integer.parseInt(id);
+                String sender = enquiryDetails[1].trim();
+                String message = enquiryDetails[2].trim().replace("\"", ""); // Remove quotes from message
+                String response = enquiryDetails[3].trim().replace("\"", ""); // Response can be null initially
+                String responder = enquiryDetails[4].trim(); // Responder can be null initially
+                String campName = enquiryDetails[5].trim();
+                //System.out.println("Adding enquiry: " + id + " " + sender + " " + message + " " + response + " " + responder + " " + campName);
+                this.addItem(new Enquiry(sender, message, idInt, response, responder, campName));
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error: Enquiry CSV file may be missing an entry.");
+            System.exit(3);
+        }
+    }
 }
 
 

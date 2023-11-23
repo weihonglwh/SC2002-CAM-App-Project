@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 
-public abstract class CSVReader implements DataReader{
+public class CSVReader implements DataReader{
     public ArrayList<String> performRead(String file) {
         try {
             FileReader fr = new FileReader(file);
@@ -57,6 +57,4 @@ public abstract class CSVReader implements DataReader{
             return null;
         }
     }
-
-    public abstract void populateStorage(Storage s);
 }

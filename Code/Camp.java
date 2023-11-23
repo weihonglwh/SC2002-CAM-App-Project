@@ -199,6 +199,10 @@ public class Camp implements Comparable {
     }
 
     public void printCampComm(){
+        if (campComms.isEmpty()){
+            System.out.println("There are no camp committee members");
+        }
+
         for (String Campcomm : campComms){
             System.out.println(Campcomm);
         }
