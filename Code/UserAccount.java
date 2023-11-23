@@ -78,7 +78,7 @@ public abstract class UserAccount {
 
     public void generateAttendeeListTXT(Filter filter, CampStorage campStorage, StudentStorage studentStorage, String fileName, UserAccount accountType) {
         AttendeeListTXTWriter writer = new AttendeeListTXTWriter();
-        if (writer.fileExists(fileName)) {
+        if (AttendeeListWriter.fileExists(fileName)) {
             System.out.println("File already exists. Please choose another file name.");
             return;
         }

@@ -50,10 +50,14 @@ public class StaffStorage extends Storage {
                 String[] staffDetails = staff.split(",");
                 // Trim to remove whitespace
                 String name = staffDetails[0].trim();
+                // Check if email is valid
+                if (!staffDetails[1].trim().contains("@")) {
+                    System.out.println("Error: Staff CSV file contains invalid email.");
+                    System.exit(4);
+                }
                 String userId = staffDetails[1].trim().split("@")[0];
                 String faculty = staffDetails[2].trim();
                 String password = staffDetails[3];
-                //System.out.println("Adding staff: " + name + " " + userId + " " + faculty + " " + password);
                 this.addItem(new StaffAccount(name, userId, password, faculty));
             }
         }

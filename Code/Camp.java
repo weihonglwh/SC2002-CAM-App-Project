@@ -208,7 +208,7 @@ public class Camp implements Comparable {
         }
     }
 
-    public void editCamp(EditOperationForStaff op) {
+    public void editCamp(EditCampOperation op) {
         op.perform(this);
     }
 

@@ -1,4 +1,4 @@
-public class ToggleVisibility implements EditOperationForStaff {
+public class ToggleVisibility implements EditCampOperation {
     public void perform(Camp camp) {
         if(camp.getAttendees().isEmpty() && camp.getCampComms().isEmpty()) {
             camp.setVisibility(!camp.getVisibility());

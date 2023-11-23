@@ -15,9 +15,9 @@ public class CampStorage extends Storage{
         for (Camp c : camps) {
             System.out.println("-------------------------------------------------------------");
             System.out.println("Camp Name: " + c.getName());
-            System.out.println("Camp Start Date: " + c.getStartDate());
-            System.out.println("Camp End Date: " + c.getEndDate());
-            System.out.println("Camp Registration Deadline: " + c.getRegDeadline());
+            System.out.println("Camp Start Date: " + DateUtility.dateToString(c.getStartDate()));
+            System.out.println("Camp End Date: " + DateUtility.dateToString(c.getEndDate()));
+            System.out.println("Camp Registration Deadline: " + DateUtility.dateToString(c.getRegDeadline()));
             System.out.println("Camp User Group: " + c.getUserGroup());
             System.out.println("Camp Location: " + c.getLocation());
             System.out.println("Remaining Slots: " + c.getRemaindingSlots());
@@ -37,9 +37,9 @@ public class CampStorage extends Storage{
             if (campStaff.getStaffIC().equals(staff.getUserId())){
                 System.out.println("-------------------------------------------------------------");
                 System.out.println("Camp Name: " + campStaff.getName());
-                System.out.println("Camp Start Date: " + campStaff.getStartDate());
-                System.out.println("Camp End Date: " + campStaff.getEndDate());
-                System.out.println("Camp Registration Deadline: "  + campStaff.getRegDeadline());
+                System.out.println("Camp Start Date: " + DateUtility.dateToString(campStaff.getStartDate()));
+                System.out.println("Camp End Date: " + DateUtility.dateToString(campStaff.getEndDate()));
+                System.out.println("Camp Registration Deadline: "  + DateUtility.dateToString(campStaff.getRegDeadline()));
                 System.out.println("Camp User group: " + campStaff.getUserGroup());
                 System.out.println("Camp Location: " + campStaff.getLocation());
                 System.out.println("Remaining slots: " + campStaff.getRemaindingSlots());
@@ -62,9 +62,9 @@ public class CampStorage extends Storage{
                     && campStudent.getVisibility()){
                 System.out.println("-------------------------------------------------------------");
                 System.out.println("Camp Name: "  + campStudent.getName());
-                System.out.println("Camp Start Date: " + campStudent.getStartDate());
-                System.out.println("Camp End Date: " + campStudent.getEndDate());
-                System.out.println("Camp Registration Deadline: " + campStudent.getRegDeadline());
+                System.out.println("Camp Start Date: " + DateUtility.dateToString(campStudent.getStartDate()));
+                System.out.println("Camp End Date: " + DateUtility.dateToString(campStudent.getEndDate()));
+                System.out.println("Camp Registration Deadline: " + DateUtility.dateToString(campStudent.getRegDeadline()));
                 System.out.println("Camp User Group: " + campStudent.getUserGroup());
                 System.out.println("Camp Location: " + campStudent.getLocation());
                 System.out.println("Remaining Slots: " + campStudent.getRemaindingSlots());
@@ -193,7 +193,6 @@ public class CampStorage extends Storage{
                         withdrawalList.add(withdrawal.trim());
                     }
                 }
-                //System.out.println("Adding camp: " + name + " " + startDate + " " + endDate + " " + regDeadline + " " + userGroup + " " + location + " " + totalSlots + " " + campCommSlots + " " + description + " " + staffIC + " " + attendees + " " + campComms + " " + visibility + " " + withdrawalList);
                 this.addItem(new Camp(name, startDateObj, endDateObj, regDeadlineObj, userGroup,
                         location, totalSlots, campCommSlots, description, staffIC, attendees,
                         campComms, visibility, withdrawalList));

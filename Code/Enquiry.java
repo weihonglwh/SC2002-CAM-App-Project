@@ -67,4 +67,5 @@ public class Enquiry {
     public String getCampName() { return campName; }
 
     public void setCampName(String campName) { this.campName = campName; }
+
 }

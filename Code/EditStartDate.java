@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.Date;
 
-public class EditStartDate implements EditOperationForStaff {
+public class EditStartDate implements EditCampOperation {
     public void perform(Camp camp) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the new start date (dd/mm/yyyy): ");

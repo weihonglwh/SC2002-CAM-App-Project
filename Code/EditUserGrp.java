@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class EditUserGrp implements EditOperationForStaff{
+public class EditUserGrp implements EditCampOperation {
     public void perform(Camp camp){
         Scanner scanner = new Scanner(System.in);
         // Getting user input

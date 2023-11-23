@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.Date;
 
-public class EditRegDeadline implements EditOperationForStaff {
+public class EditRegDeadline implements EditCampOperation {
     public void perform(Camp camp) {
         Scanner scanner = new Scanner(System.in);
         // Getting user input

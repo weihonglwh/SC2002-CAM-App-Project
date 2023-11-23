@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class EditLocation implements EditOperationForStaff {
+public class EditLocation implements EditCampOperation {
     public void perform(Camp camp) {
         Scanner scanner = new Scanner(System.in);
         // Getting user input

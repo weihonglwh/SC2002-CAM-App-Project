@@ -90,7 +90,6 @@ public class SuggestionStorage extends Storage {
                 boolean approval = Boolean.parseBoolean(suggestionDetails[3].trim());
                 boolean processed = Boolean.parseBoolean(suggestionDetails[4].trim());
                 String campName = suggestionDetails[5].trim();
-                //System.out.println("Adding suggestion: " + suggestionID + " " + suggestor + " " + suggestionMsg + " " + approval + " " + processed + " " + campName);
                 this.addItem(new Suggestion(suggestor, suggestionMsg, idInt, approval, processed, campName));
             }
         }

@@ -24,7 +24,7 @@ public class UiPrinter {
         System.out.println("9) Approve/Reject Suggestions");
         System.out.println("10) View attendees of a camp");
         System.out.println("11) View camp committee of a camp");
-        System.out.println("12) Generate a performance report of the camp committee members");
+        System.out.println("12) Generate performance report of camp committee for all camps");
         System.out.println("13) Generate an attendees list report for each camp created");
         System.out.println("14) Change password");
         System.out.println("15) Log out");

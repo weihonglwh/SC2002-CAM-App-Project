@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Date;
 
 public class StaffAccount extends UserAccount {
@@ -17,29 +18,38 @@ public class StaffAccount extends UserAccount {
         System.out.println("Camp added to storage");
     }
 
-    public void processSuggestion(int choice, Suggestion tarSuggestion, StudentStorage studentStorage ){
-        switch (choice) {
-            case 1:
-                tarSuggestion.setApproval(true);
-                tarSuggestion.setProcessed(true);
-                System.out.println("Suggestion Accepted");
-                String studentName = tarSuggestion.getSuggestor();
-                StudentAccount studentNameObj = studentStorage.getData(studentName);
-                studentNameObj.addPoints();
-                break;
-            case 2:
-                tarSuggestion.setApproval(false);
-                tarSuggestion.setProcessed(true);
-                System.out.println("Suggestion Rejected");
-                break;
+    public void processSuggestion(Suggestion tarSuggestion, StudentStorage studentStorage, boolean approval){
+        tarSuggestion.setApproval(approval);
+        tarSuggestion.setProcessed(true);
+        if (approval) {
+            System.out.println("Suggestion Accepted");
+            String studentName = tarSuggestion.getSuggestor();
+            StudentAccount studentNameObj = studentStorage.getData(studentName);
+            studentNameObj.addPoints();
+        }
+        else {
+            System.out.println("Suggestion Rejected");
         }
     }
 
-    public void editCamp(Camp campToBeEdited, EditOperationForStaff editOperationForStaff) {
-        if (campToBeEdited == null || editOperationForStaff == null) {
+    public void editCamp(Camp campToBeEdited, EditCampOperation editOperation) {
+        if (campToBeEdited == null || editOperation == null) {
             System.out.println("Invalid arguments");
             return;
         }
-        campToBeEdited.editCamp(editOperationForStaff);
+        campToBeEdited.editCamp(editOperation);
+    }
+
+    public void generatePerformanceReport(CampStorage campStorage, StudentStorage studentStorage, String fileName) {
+        PerformanceReportTXTWriter writer = new PerformanceReportTXTWriter();
+        if (PerformanceReportWriter.fileExists(fileName)) {
+            System.out.println("File already exists. Please choose another file name.");
+            return;
+        }
+        ArrayList<Camp> campsByStaff = ReportPrepper.findCampsByStaff(getUserId(), campStorage);
+        for (Camp camp : campsByStaff) {
+            writer.writeData(fileName, camp, studentStorage);
+        }
+        System.out.println("Performance report outputted to " + fileName + " successfully.");
     }
 }

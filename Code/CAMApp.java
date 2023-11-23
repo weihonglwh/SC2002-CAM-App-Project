@@ -188,39 +188,39 @@ public class CAMApp {
                                                     UiPrinter.printStaffEditMenu();
                                                     staffEditchoice = sc.nextInt();
                                                     sc.nextLine();
-                                                }
-                                                switch (staffEditchoice) {
-                                                    case 1: // edit start date
-                                                        staffAccount.editCamp(editcampObj, new EditStartDate());
-                                                        break;
+                                                    switch (staffEditchoice) {
+                                                        case 1: // edit start date
+                                                            staffAccount.editCamp(editcampObj, new EditStartDate());
+                                                            break;
 
-                                                    case 2: // edit end date
-                                                        staffAccount.editCamp(editcampObj, new EditEndDate());
-                                                        break;
+                                                        case 2: // edit end date
+                                                            staffAccount.editCamp(editcampObj, new EditEndDate());
+                                                            break;
 
-                                                    case 3: // edit registration deadline
-                                                        staffAccount.editCamp(editcampObj, new EditRegDeadline());
-                                                        break;
+                                                        case 3: // edit registration deadline
+                                                            staffAccount.editCamp(editcampObj, new EditRegDeadline());
+                                                            break;
 
-                                                    case 4: // edit location
-                                                        staffAccount.editCamp(editcampObj, new EditLocation());
-                                                        break;
+                                                        case 4: // edit location
+                                                            staffAccount.editCamp(editcampObj, new EditLocation());
+                                                            break;
 
-                                                    case 5: // edit description
-                                                        staffAccount.editCamp(editcampObj, new EditDescription());
-                                                        break;
+                                                        case 5: // edit description
+                                                            staffAccount.editCamp(editcampObj, new EditDescription());
+                                                            break;
 
-                                                    case 6: // toggle visibility
-                                                        staffAccount.editCamp(editcampObj, new ToggleVisibility());
-                                                        break;
+                                                        case 6: // toggle visibility
+                                                            staffAccount.editCamp(editcampObj, new ToggleVisibility());
+                                                            break;
 
-                                                    case 7: // exit edit page
-                                                        System.out.println("Exiting edit page");
-                                                        break;
+                                                        case 7: // exit edit page
+                                                            System.out.println("Exiting edit page");
+                                                            break;
 
-                                                    default:
-                                                        System.out.println("Invalid choice. Please enter a valid option.");
-                                                        break;
+                                                        default:
+                                                            System.out.println("Invalid choice. Please enter a valid option.");
+                                                            break;
+                                                    }
                                                 }
                                             }
                                             else {
@@ -345,7 +345,16 @@ public class CAMApp {
                                                         System.out.println("2) Reject");
                                                         int suggestionChoice = sc.nextInt();
                                                         sc.nextLine();
-                                                        staffAccount.processSuggestion(suggestionChoice,tarSuggestion,studentStorage);
+                                                        switch (suggestionChoice) {
+                                                            case 1:
+                                                                staffAccount.processSuggestion(tarSuggestion, studentStorage, true);
+                                                                break;
+                                                            case 2:
+                                                                staffAccount.processSuggestion(tarSuggestion, studentStorage, false);
+                                                                break;
+                                                            default:
+                                                                System.out.println("Invalid choice.");
+                                                        }
                                                     }
                                                 }
                                             }
@@ -381,17 +390,19 @@ public class CAMApp {
                                         }
                                         break;
                                     case 12:
-                                        // Generate performance report
+                                        // Generate performance report for all camps the staff is in charge of
                                         // include the points of the camp committee members
-                                        System.out.println("Please enter the camp that you wish to generate performance report for");
-                                        String campReport = sc.nextLine();
-                                        // Generate performance report for campReport
+                                        System.out.println("Please enter the name of the file (without file extension).");
+                                        String performanceReportFileName = sc.nextLine();
+                                        performanceReportFileName = performanceReportFileName + ".txt";
+                                        staffAccount.generatePerformanceReport(campStorage, studentStorage, performanceReportFileName);
                                         break;
                                     case 13: //Generate list of attendees or camp committee either in txt or csv format
                                         System.out.println("Would you like to generate list of attendees or camp committee");
-                                        System.out.println("1) Generate list of attendees only");
+                                        System.out.println("1) Generate list of participants only");
                                         System.out.println("2) Generate list of camp committee only");
                                         System.out.println("3) Generate list without filters");
+
                                         int filterChoice = sc.nextInt();
                                         while(filterChoice != 1 && filterChoice !=2 && filterChoice !=3) {
                                             System.out.println("Invalid choice. Please select again!");
@@ -415,12 +426,12 @@ public class CAMApp {
                                                     case 1:
                                                         //output data in csv file
                                                         fileName = fileName + ".csv";
-                                                        staffAccount.generateAttendeeListCSV(new AttendeeFilter(), campStorage, studentStorage, fileName, staffAccount);
+                                                        staffAccount.generateAttendeeListCSV(new ParticipantFilter(), campStorage, studentStorage, fileName, staffAccount);
                                                         break;
                                                     case 2:
                                                         // output data in txt file
                                                         fileName = fileName + ".txt";
-                                                        staffAccount.generateAttendeeListTXT(new AttendeeFilter(), campStorage, studentStorage, fileName, staffAccount);
+                                                        staffAccount.generateAttendeeListTXT(new ParticipantFilter(), campStorage, studentStorage, fileName, staffAccount);
                                                         break;
                                                 }
                                             break;
@@ -840,7 +851,7 @@ public class CAMApp {
 
                                                     case 8:  //Generate list of attendees or camp committee either in txt or csv format
                                                         System.out.println("Would you like to generate list of attendees or camp committee");
-                                                        System.out.println("1) Generate list of attendees only");
+                                                        System.out.println("1) Generate list of participants only");
                                                         System.out.println("2) Generate list of camp committee only");
                                                         System.out.println("3) Generate list without filters");
                                                         int filterChoice = sc.nextInt();
@@ -866,12 +877,12 @@ public class CAMApp {
                                                                     case 1:
                                                                         //output data in csv file
                                                                         fileName = fileName + ".csv";
-                                                                        studentAccount.generateAttendeeListCSV(new AttendeeFilter(), campStorage, studentStorage, fileName, studentAccount);
+                                                                        studentAccount.generateAttendeeListCSV(new ParticipantFilter(), campStorage, studentStorage, fileName, studentAccount);
                                                                         break;
                                                                     case 2:
                                                                         // output data in txt file
                                                                         fileName = fileName + ".txt";
-                                                                        studentAccount.generateAttendeeListTXT(new AttendeeFilter(), campStorage, studentStorage, fileName, studentAccount);
+                                                                        studentAccount.generateAttendeeListTXT(new ParticipantFilter(), campStorage, studentStorage, fileName, studentAccount);
                                                                         break;
                                                                 }
                                                                 break;

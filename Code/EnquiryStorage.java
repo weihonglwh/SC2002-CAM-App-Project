@@ -114,7 +114,6 @@ public class EnquiryStorage extends Storage {
                 String response = enquiryDetails[3].trim().replace("\"", ""); // Response can be null initially
                 String responder = enquiryDetails[4].trim(); // Responder can be null initially
                 String campName = enquiryDetails[5].trim();
-                //System.out.println("Adding enquiry: " + id + " " + sender + " " + message + " " + response + " " + responder + " " + campName);
                 this.addItem(new Enquiry(sender, message, idInt, response, responder, campName));
             }
         }

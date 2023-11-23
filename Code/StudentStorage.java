@@ -50,6 +50,11 @@ public class StudentStorage extends Storage {
                 String[] studentDetails = student.split(",", -1);
                 // Trim to remove whitespace
                 String name = studentDetails[0].trim();
+                // Check if email is valid
+                if (!studentDetails[1].trim().contains("@")) {
+                    System.out.println("Error: Student CSV file contains invalid email.");
+                    System.exit(4);
+                }
                 String userId = studentDetails[1].trim().split("@")[0];
                 String faculty = studentDetails[2].trim();
                 String password = studentDetails[3];
@@ -62,7 +67,6 @@ public class StudentStorage extends Storage {
                         campsAttending.add(camp);
                     }
                 }
-                //System.out.println("Adding student: " + name + " " + userId + " " + faculty + " " + password + " " + points + " " + campCommOf + " " + campsAttending);
                 this.addItem(new StudentAccount(name, userId, password, faculty, points, campCommOf, campsAttending));
             }
         }

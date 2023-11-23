@@ -1,5 +1,5 @@
 import java.util.ArrayList;
 
 public interface StorageFilter {
-    ArrayList perform(Storage s, String k);    
+    public abstract ArrayList perform(Storage s, String k);
 }

@@ -21,7 +21,7 @@ public class ReportPrepper {
         for (String attendee : attendees) {
             String nameAndId = prepareStudentName(attendee, ss);
             Dictionary<String, String> nameAndRole = new Hashtable<>();
-            nameAndRole.put(nameAndId, "Attendee");
+            nameAndRole.put(nameAndId, "Participant");
             namesAndRoles.add(nameAndRole);
         }
         for (String campComm : campComms) {

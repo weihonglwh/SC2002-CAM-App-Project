@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Dictionary;
 
-public class AttendeeListCSVWriter implements AttendeeListWriter{
+public class AttendeeListCSVWriter extends AttendeeListWriter{
     public void writeHeader(String fileName) {
         try {
             FileWriter fw = new FileWriter(fileName);

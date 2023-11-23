@@ -6,12 +6,7 @@ import java.util.Dictionary;
   //      "Camp Comm Slots,Description,Staff IC,Visibility,Withdrawal List, Participant Name, " +
     //    "Role");
 
-public class AttendeeListTXTWriter implements AttendeeListWriter{
-    public boolean fileExists(String fileName){
-        File f = new File(fileName);
-        return f.exists() && !f.isDirectory();
-    }
-
+public class AttendeeListTXTWriter extends AttendeeListWriter{
     public void writeData(String fileName, ArrayList<Dictionary<String, String>> nameAndRoles, Camp c, Filter filter){
         if (filter != null){
             nameAndRoles = filter.performFilter(nameAndRoles);
@@ -34,10 +29,16 @@ public class AttendeeListTXTWriter implements AttendeeListWriter{
             bufferedWriter.write("Staff IC: " + c.getStaffIC() + "\n");
             bufferedWriter.write("Visibility: " + c.getVisibility() + "\n");
             bufferedWriter.write("Withdrawal List: \n");
-            for (String withdrawal : c.getWithdrawalList()) {
-                bufferedWriter.write("\t" + withdrawal + "\n");
+            ArrayList<String> withdrawalList = c.getWithdrawalList();
+            if (withdrawalList.isEmpty()) {
+                bufferedWriter.write("\tNo withdrawals\n");
             }
-            bufferedWriter.write("Participants: \n");
+            else {
+                for (String withdrawal : withdrawalList) {
+                    bufferedWriter.write("\t" + withdrawal + "\n");
+                }
+            }
+            bufferedWriter.write("Attendees: \n");
             for (Dictionary<String, String> nameAndRole : nameAndRoles) {
                 String name = nameAndRole.keys().nextElement();
                 String role = nameAndRole.get(name);
