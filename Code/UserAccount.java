@@ -91,53 +91,23 @@ public abstract class UserAccount {
     }
 
     /**
-     * To generate the attendee list in CSV format.
-     * @param filter The filter to be applied.
-     * @param campStorage The storage of camps.
-     * @param studentStorage The storage of students.
-     * @param fileName The name of the CSV file.
-     * @param accountType The type of user account.
-     */
-    public void generateAttendeeListCSV(Filter filter, CampStorage campStorage, StudentStorage studentStorage, String fileName, UserAccount accountType) {
-        AttendeeListCSVWriter writer = new AttendeeListCSVWriter();
-        if (accountType instanceof StaffAccount) {
-            ArrayList<Camp> campsByStaff = ReportPrepper.findCampsByStaff(userId, campStorage);
-            writer.writeHeader(fileName);
-            for (Camp camp : campsByStaff) {
-                ArrayList<Dictionary<String, String>> namesAndRoles = ReportPrepper.buildDictionary(camp, studentStorage);
-                writer.writeData(fileName, namesAndRoles, camp, filter);
-            }
-        }
-        else if (accountType instanceof StudentAccount) {
-            // Check if student is camp committee
-            StudentAccount studentAccount = (StudentAccount) accountType;
-            String campCommCamp = studentAccount.getCampCommOf();
-            if (campCommCamp.isEmpty()) {
-                System.out.println("[ You are not a camp committee of any camp. ]");
-                return;
-            }
-            else {
-                writer.writeHeader(fileName);
-                Camp camp = campStorage.getData(campCommCamp);
-                ArrayList<Dictionary<String, String>> namesAndRoles = ReportPrepper.buildDictionary(camp, studentStorage);
-                writer.writeData(fileName, namesAndRoles, camp, filter);
-            }
-        }
-        System.out.println("[ Participant list outputted to " + fileName + " successfully. ]");
-    }
-
-    /**
-     * To generate the attendee list in TXT format.
+     * To generate the attendee list.
+     * Supports multiple file types.
      * @param filter The filter to be applied.
      * @param campStorage The storage of camps.
      * @param studentStorage The storage of students.
      * @param fileName The file name to be written to.
      * @param accountType The account type of the user.
+     * @param writer The writer to be used.
      */
-    public void generateAttendeeListTXT(Filter filter, CampStorage campStorage, StudentStorage studentStorage, String fileName, UserAccount accountType) {
-        AttendeeListTXTWriter writer = new AttendeeListTXTWriter();
+    public void generateAttendeeList(Filter filter, CampStorage campStorage, StudentStorage studentStorage,
+                                        String fileName, UserAccount accountType, AttendeeListWriter writer) {
         if (FileExistenceChecker.fileExists(fileName)) {
             System.out.println("[ File already exists. Please choose another file name. ]");
+            return;
+        }
+        if (writer == null) {
+            System.out.println("[ Invalid writer. ]");
             return;
         }
         if (accountType instanceof StaffAccount) {
@@ -156,6 +126,9 @@ public abstract class UserAccount {
                 return;
             }
             else {
+                if (writer instanceof AttendeeListCSVWriter) {
+                    ((AttendeeListCSVWriter) writer).writeHeader(fileName);
+                }
                 Camp camp = campStorage.getData(campCommCamp);
                 ArrayList<Dictionary<String, String>> namesAndRoles = ReportPrepper.buildDictionary(camp, studentStorage);
                 writer.writeData(fileName, namesAndRoles, camp, filter);

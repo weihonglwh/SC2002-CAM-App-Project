@@ -572,12 +572,12 @@ public class CAMApp {
                                                     case 1:
                                                         //output data in csv file
                                                         fileName = fileName + ".csv";
-                                                        staffAccount.generateAttendeeListCSV(new AttendeeFilter(), campStorage, studentStorage, fileName, staffAccount);
+                                                        staffAccount.generateAttendeeList(new AttendeeFilter(), campStorage, studentStorage, fileName, staffAccount, new AttendeeListCSVWriter());
                                                         break;
                                                     case 2:
                                                         // output data in txt file
                                                         fileName = fileName + ".txt";
-                                                        staffAccount.generateAttendeeListTXT(new AttendeeFilter(), campStorage, studentStorage, fileName, staffAccount);
+                                                        staffAccount.generateAttendeeList(new AttendeeFilter(), campStorage, studentStorage, fileName, staffAccount, new AttendeeListTXTWriter());
                                                         break;
                                                     default: // Asks user for an input again
                                                         System.out.println("[ Invalid choice. Please select again. ]");
@@ -588,12 +588,12 @@ public class CAMApp {
                                                     case 1:
                                                         //output data in csv file
                                                         fileName = fileName + ".csv";
-                                                        staffAccount.generateAttendeeListCSV(new CampCommFilter(), campStorage, studentStorage, fileName, staffAccount);
+                                                        staffAccount.generateAttendeeList(new CampCommFilter(), campStorage, studentStorage, fileName, staffAccount, new AttendeeListCSVWriter());
                                                         break;
                                                     case 2:
                                                         // output data in txt file
                                                         fileName = fileName + ".txt";
-                                                        staffAccount.generateAttendeeListTXT(new CampCommFilter(), campStorage, studentStorage, fileName, staffAccount);
+                                                        staffAccount.generateAttendeeList(new CampCommFilter(), campStorage, studentStorage, fileName, staffAccount, new AttendeeListTXTWriter());
                                                         break;
                                                     default: // Asks user for an input again
                                                         System.out.println("[ Invalid choice. Please select again. ]");
@@ -604,12 +604,12 @@ public class CAMApp {
                                                     case 1:
                                                         //output data in csv file
                                                         fileName = fileName + ".csv";
-                                                        staffAccount.generateAttendeeListCSV(null, campStorage, studentStorage, fileName, staffAccount);
+                                                        staffAccount.generateAttendeeList(null, campStorage, studentStorage, fileName, staffAccount, new AttendeeListCSVWriter());
                                                         break;
                                                     case 2:
                                                         // output data in txt file
                                                         fileName = fileName + ".txt";
-                                                        staffAccount.generateAttendeeListTXT(null, campStorage, studentStorage, fileName, staffAccount);
+                                                        staffAccount.generateAttendeeList(null, campStorage, studentStorage, fileName, staffAccount, new AttendeeListTXTWriter());
                                                         break;
                                                     default: // Asks user for an input again
                                                         System.out.println("[ Invalid choice. Please select again. ]");
@@ -1170,12 +1170,12 @@ public class CAMApp {
                                                                     case 1:
                                                                         //output data in csv file
                                                                         fileName = fileName + ".csv";
-                                                                        studentAccount.generateAttendeeListCSV(new AttendeeFilter(), campStorage, studentStorage, fileName, studentAccount);
+                                                                        studentAccount.generateAttendeeList(new AttendeeFilter(), campStorage, studentStorage, fileName, studentAccount, new AttendeeListCSVWriter());
                                                                         break;
                                                                     case 2:
                                                                         // output data in txt file
                                                                         fileName = fileName + ".txt";
-                                                                        studentAccount.generateAttendeeListTXT(new AttendeeFilter(), campStorage, studentStorage, fileName, studentAccount);
+                                                                        studentAccount.generateAttendeeList(new AttendeeFilter(), campStorage, studentStorage, fileName, studentAccount, new AttendeeListTXTWriter());
                                                                         break;
                                                                     default: // Asks user for an input again
                                                                         System.out.println("[ Invalid choice. Please select again. ]");
@@ -1187,12 +1187,12 @@ public class CAMApp {
                                                                     case 1:
                                                                         //output data in csv file
                                                                         fileName = fileName + ".csv";
-                                                                        studentAccount.generateAttendeeListCSV(new CampCommFilter(), campStorage, studentStorage, fileName, studentAccount);
+                                                                        studentAccount.generateAttendeeList(new CampCommFilter(), campStorage, studentStorage, fileName, studentAccount, new AttendeeListCSVWriter());
                                                                         break;
                                                                     case 2:
                                                                         // output data in txt file
                                                                         fileName = fileName + ".txt";
-                                                                        studentAccount.generateAttendeeListTXT(new CampCommFilter(), campStorage, studentStorage, fileName, studentAccount);
+                                                                        studentAccount.generateAttendeeList(new CampCommFilter(), campStorage, studentStorage, fileName, studentAccount, new AttendeeListTXTWriter());
                                                                         break;
                                                                     default: // Asks user for an input again
                                                                         System.out.println("[ Invalid choice. Please select again. ]");
@@ -1203,12 +1203,12 @@ public class CAMApp {
                                                                     case 1:
                                                                         //output data in csv file
                                                                         fileName = fileName + ".csv";
-                                                                        studentAccount.generateAttendeeListCSV(null, campStorage, studentStorage, fileName, studentAccount);
+                                                                        studentAccount.generateAttendeeList(null, campStorage, studentStorage, fileName, studentAccount, new AttendeeListCSVWriter());
                                                                         break;
                                                                     case 2:
                                                                         // output data in txt file
                                                                         fileName = fileName + ".txt";
-                                                                        studentAccount.generateAttendeeListTXT(null, campStorage, studentStorage, fileName, studentAccount);
+                                                                        studentAccount.generateAttendeeList(null, campStorage, studentStorage, fileName, studentAccount, new AttendeeListTXTWriter());
                                                                         break;
                                                                     default: // Asks user for an input again
                                                                         System.out.println("[ Invalid choice. Please select again. ]");
