@@ -4,6 +4,8 @@ import java.util.Date;
 /**
  * This class is an implementation of the EditOperationForStaff interface
  * It is used to change the registration deadline of the camp
+ * @version 1.0
+ * @since 2023-11-24
  * @see EditCampOperation
  */
 public class EditRegDeadline implements EditCampOperation {

@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 /**
- * EnquiryStorage is a subclass of Storage that stores Enquiry objects.
+ * EnquiryStorage is an implementation of Storage that stores Enquiry objects.
  * It contains methods to print all enquiries, print enquiries by sender, and populate data from a CSV file.
  * @version 1.0
  * @since 2023-11-24
  * @see Storage
  */
-public class EnquiryStorage extends Storage {
+public class EnquiryStorage implements Storage {
     /**
      * The list of enquiries.
      */

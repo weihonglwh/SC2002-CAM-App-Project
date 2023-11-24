@@ -1,9 +1,12 @@
 /**
- * Enquiry class.
- * This class is used to create an enquiry object.
- * It contains the sender, message, enquiryID, response, responder and campName.
- * It contains getters and setters for all the attributes.
- * It contains a constructor to create an enquiry object.
+ * Enquiry class
+ * This class is used to create an enquiry object. Enquiry objects are used to store information about an enquiry.
+ * Attributes:
+ * sender, message, enquiryID, response, responder and campName
+ * Constructors:
+ * Enquiry(String sender, String message, String campName, int enquiryID)
+ * Enquiry(String sender, String message, int enquiryID, String response, String responder, String campName)
+ * It also contains getters and setters for all the attributes.
  * @version 1.0
  * @since 2023-11-24
  */

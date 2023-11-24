@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 /**
- * StudentStorage is a subclass of Storage that stores StudentAccount objects.
+ * StudentStorage is an implementation of Storage that stores StudentAccount objects.
  * It contains methods to get data, get a specific object, add items, and populate data from a CSV file.
  * @version 1.0
  * @since 2023-11-24
  * @see Storage
  */
-public class StudentStorage extends Storage {
+public class StudentStorage implements Storage {
     /**
      * The list of students.
      */

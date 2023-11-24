@@ -1,5 +1,6 @@
 /**
- * Suggestion class
+ * This is a suggestion class that stores the suggestion information for camps.
+ * It contains the name of the suggester, the suggestion, the approval status of the suggestion, the processed status of the suggestion, the suggestion ID and the camp name.
  * @version 1.0
  * @since 2023-11-24
  */

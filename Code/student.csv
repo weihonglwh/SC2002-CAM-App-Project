@@ -1,12 +1,12 @@
 Name,Email,Faculty,Password,Points,CampCompOf,CampsRegistered
-CHERN,YCHERN@e.ntu.edu.sg,SCSE,password,0,,Sports;
-KOH,KOH1@e.ntu.edu.sg,ADM,password,0,,Sports;
+CHERN,YCHERN@e.ntu.edu.sg,SCSE,password,0,,
+KOH,KOH1@e.ntu.edu.sg,ADM,password,0,,
 BRANDON,BR015@e.ntu.edu.sg,EEE,password,0,,
-CALVIN,CT113@e.ntu.edu.sg,SCSE,password,0,Sports,
+CALVIN,CT113@e.ntu.edu.sg,SCSE,password,0,,
 CHAN,YCN019@e.ntu.edu.sg,NBS,password,0,,
-DENISE,DL007@e.ntu.edu.sg,SCSE,password,0,Sports,
+DENISE,DL007@e.ntu.edu.sg,SCSE,password,0,,
 DONG,DON84@e.ntu.edu.sg,ADM,password,0,,
-ERNEST,ELI34@e.ntu.edu.sg,EEE,password,0,Sports,
-LEE,LE51@e.ntu.edu.sg,SCSE,password,4,z 1 only,
+ERNEST,ELI34@e.ntu.edu.sg,EEE,password,0,,
+LEE,LE51@e.ntu.edu.sg,SCSE,password,0,,
 LIU,SL22@e.ntu.edu.sg,NBS,password,0,,
 RAWAL,AKY013@e.ntu.edu.sg,SSS,password,0,,

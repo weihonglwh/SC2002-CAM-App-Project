@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 2023-11-24
  */
-public abstract class Storage
+public interface Storage
 {
     /**
      * To get a list of all objects.

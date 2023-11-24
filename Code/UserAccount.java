@@ -123,7 +123,7 @@ public abstract class UserAccount {
                 writer.writeData(fileName, namesAndRoles, camp, filter);
             }
         }
-        System.out.println("[ Attendee list outputted to " + fileName + " successfully. ]");
+        System.out.println("[ Participant list outputted to " + fileName + " successfully. ]");
     }
 
     /**
@@ -161,6 +161,6 @@ public abstract class UserAccount {
                 writer.writeData(fileName, namesAndRoles, camp, filter);
             }
         }
-        System.out.println("[ Attendee list outputted to " + fileName + " successfully. ]");
+        System.out.println("[ Participant list outputted to " + fileName + " successfully. ]");
     }
 }

@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 /**
- * StaffStorage is a subclass of Storage that stores StaffAccount objects.
+ * StaffStorage is an implementation of Storage that stores StaffAccount objects.
  * It contains methods to get data, get a specific object, add items, and populate data from a CSV file.
  * @version 1.0
  * @since 2023-11-24
  * @see Storage
  */
-public class StaffStorage extends Storage {
+public class StaffStorage implements Storage {
     /**
      * The list of staffs.
      */

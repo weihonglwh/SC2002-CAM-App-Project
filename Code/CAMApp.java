@@ -522,7 +522,7 @@ public class CAMApp {
                                         break;
                                     case 13: //Generate list of attendees or camp committee either in txt or csv format
                                         System.out.println("> Would you like to generate list of attendees or camp committee <");
-                                        System.out.println("1) Generate list of participants only");
+                                        System.out.println("1) Generate list of attendees only");
                                         System.out.println("2) Generate list of camp committee only");
                                         System.out.println("3) Generate list without filters");
                                         System.out.print(">> ");
@@ -535,7 +535,7 @@ public class CAMApp {
                                         while(filterChoice != 1 && filterChoice !=2 && filterChoice !=3) {
                                             System.out.println("[ Invalid choice. Please select again! ]"); //Error handling
                                             System.out.println("> Would you like to generate list of attendees or camp committee <");
-                                            System.out.println("1) Generate list of participants only");
+                                            System.out.println("1) Generate list of attendees only");
                                             System.out.println("2) Generate list of camp committee only");
                                             System.out.println("3) Generate list without filters");
                                             System.out.print(">> ");
@@ -1084,6 +1084,11 @@ public class CAMApp {
                                                             System.out.println("[ Suggestion do not exist! ]"); //Error handling
                                                             break;
                                                         }
+                                                        // check if suggestion is processed
+                                                        if (deleteSuggest.getProcessed()) {
+                                                            System.out.println("[ Cannot Delete! Suggestion has already been processed! ]");
+                                                            break;
+                                                        }
                                                         //Check whether suggestion is made by user
                                                         if(deleteSuggest.getSuggester().equals(studentAccount.getUserId())){
                                                             suggestionStorage.deleteItem(deleteSuggest);
@@ -1128,7 +1133,7 @@ public class CAMApp {
                                                     case 8:  //Generate list of attendees or camp committee either in txt or csv format
                                                         int filterChoice = 0;
                                                         System.out.println("> Would you like to generate list of attendees or camp committee <");
-                                                        System.out.println("1) Generate list of participants only");
+                                                        System.out.println("1) Generate list of attendees only");
                                                         System.out.println("2) Generate list of camp committee only");
                                                         System.out.println("3) Generate list without filters");
                                                         System.out.print(">> ");

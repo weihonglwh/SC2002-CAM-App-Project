@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.Date;
 
 /**
- * CampStorage is a subclass of Storage that stores all the camps in the system.
+ * CampStorage is an implementation of Storage that stores all the camps in the system.
  * It contains methods to print all camps, print camps created by a specific staff,
  * print camps specific to student's faculty, get all camps, get a specific camp,
  * add a camp, remove a camp, sort camps, and populate data from a CSV file.
@@ -11,7 +11,7 @@ import java.util.Date;
  * @since 2023-11-24
  * @see Storage
  */
-public class CampStorage extends Storage{
+public class CampStorage implements Storage{
     /**
      * An ArrayList of Camp objects.
      */

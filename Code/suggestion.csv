@@ -1,8 +1,1 @@
-Id,Suggestor,Suggestion,Approval,Processed,CampName
-1,CHERN,"a",1,1,UOC
-2,KOH,"b",0,1,UOC
-3,BRANDON,"c",1,1,UOC
-4,CALVIN,"d",0,1,UOC
-5,CHAN,"e",0,1,SCSE
-6,LE51,"uhm im not supposed to be here",1,1,z 1 only
-7,LE51,"keefer not watching this",0,1,z 1 only
+Id,Suggester,Suggestion,Approval,Processed,CampName

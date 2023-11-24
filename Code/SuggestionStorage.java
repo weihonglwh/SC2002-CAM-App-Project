@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 /**
- * SuggestionStorage is a subclass of Storage that stores Suggestion objects.
+ * SuggestionStorage is an implementation of Storage that stores Suggestion objects.
  * It contains methods to get data, get a specific object, add items, and populate data from a CSV file.
  * @version 1.0
  * @since 2023-11-24
  * @see Storage
  */
-public class SuggestionStorage extends Storage {
+public class SuggestionStorage implements Storage {
     /**
      * The list of suggestions.
      */
