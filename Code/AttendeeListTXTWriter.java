@@ -2,12 +2,23 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Dictionary;
 
-//bw.write("Camp Name,Start Date,End Date,Registration Deadline,User Group,Location,Total Slots," +
-  //      "Camp Comm Slots,Description,Staff IC,Visibility,Withdrawal List, Participant Name, " +
-    //    "Role");
-
-public class AttendeeListTXTWriter extends AttendeeListWriter{
-    public void writeData(String fileName, ArrayList<Dictionary<String, String>> nameAndRoles, Camp c, Filter filter){
+/**
+ * Writes attendee list to TXT file.
+ * Implements the writeData() method from AttendeeListWriter.
+ * @version 1.0
+ * @since 2023-11-24
+ * @see AttendeeListWriter
+ */
+public class AttendeeListTXTWriter implements AttendeeListWriter{
+    /**
+     * Writes the attendee list data to TXT file.
+     * @param fileName Name of the TXT file to write to.
+     * @param nameAndRoles List of dictionaries containing participant name and role.
+     * @param camp Camp object containing camp data.
+     * @param filter Filter object containing filter criteria for attendee dictionary.
+     */
+    public void writeData(String fileName, ArrayList<Dictionary<String, String>> nameAndRoles, Camp camp, Filter filter){
+        // Perform filtering if filter is passed in
         if (filter != null){
             nameAndRoles = filter.performFilter(nameAndRoles);
         }
@@ -16,20 +27,21 @@ public class AttendeeListTXTWriter extends AttendeeListWriter{
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             // Write camp data
             bufferedWriter.write("===============================================\n");
-            bufferedWriter.write("Camp Name: " + c.getName() + "\n");
+            bufferedWriter.write("Camp Name: " + camp.getName() + "\n");
             bufferedWriter.write("===============================================\n");
-            bufferedWriter.write("Start Date: " + DateUtility.dateToString(c.getStartDate()) + "\n");
-            bufferedWriter.write("End Date: " + DateUtility.dateToString(c.getEndDate()) + "\n");
-            bufferedWriter.write("Registration Deadline: " + DateUtility.dateToString(c.getRegDeadline()) + "\n");
-            bufferedWriter.write("User Group: " + c.getUserGroup() + "\n");
-            bufferedWriter.write("Location: " + c.getLocation() + "\n");
-            bufferedWriter.write("Total Slots: " + c.getTotalSlots() + "\n");
-            bufferedWriter.write("Camp Comm Slots: " + c.getCampCommSlots() + "\n");
-            bufferedWriter.write("Description: " + c.getDescription() + "\n");
-            bufferedWriter.write("Staff IC: " + c.getStaffIC() + "\n");
-            bufferedWriter.write("Visibility: " + c.getVisibility() + "\n");
+            bufferedWriter.write("Start Date: " + DateUtility.dateToString(camp.getStartDate()) + "\n");
+            bufferedWriter.write("End Date: " + DateUtility.dateToString(camp.getEndDate()) + "\n");
+            bufferedWriter.write("Registration Deadline: " + DateUtility.dateToString(camp.getRegDeadline()) + "\n");
+            bufferedWriter.write("User Group: " + camp.getUserGroup() + "\n");
+            bufferedWriter.write("Location: " + camp.getLocation() + "\n");
+            bufferedWriter.write("Total Slots: " + camp.getTotalSlots() + "\n");
+            bufferedWriter.write("Camp Comm Slots: " + camp.getCampCommSlots() + "\n");
+            bufferedWriter.write("Description: " + camp.getDescription() + "\n");
+            bufferedWriter.write("Staff IC: " + camp.getStaffIC() + "\n");
+            bufferedWriter.write("Visibility: " + camp.getVisibility() + "\n");
             bufferedWriter.write("Withdrawal List: \n");
-            ArrayList<String> withdrawalList = c.getWithdrawalList();
+            ArrayList<String> withdrawalList = camp.getWithdrawalList();
+            // Check and write withdrawal list
             if (withdrawalList.isEmpty()) {
                 bufferedWriter.write("\tNo withdrawals\n");
             }
@@ -38,7 +50,8 @@ public class AttendeeListTXTWriter extends AttendeeListWriter{
                     bufferedWriter.write("\t" + withdrawal + "\n");
                 }
             }
-            bufferedWriter.write("Attendees: \n");
+            // Write participant list in the filtered array of dictionary
+            bufferedWriter.write("Participants: \n");
             for (Dictionary<String, String> nameAndRole : nameAndRoles) {
                 String name = nameAndRole.keys().nextElement();
                 String role = nameAndRole.get(name);
@@ -49,7 +62,7 @@ public class AttendeeListTXTWriter extends AttendeeListWriter{
             bufferedWriter.close();
             fileWriter.close();
         } catch (IOException e) {
-            System.out.println("Unable to write to file '" + fileName + "'");
+            System.out.println("[ Unable to write to file '" + fileName + "' ]");
         }
     }
 }

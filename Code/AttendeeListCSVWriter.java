@@ -2,7 +2,18 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Dictionary;
 
-public class AttendeeListCSVWriter extends AttendeeListWriter{
+/**
+ * Writes attendee list to CSV file.
+ * Implements the writeData() method from AttendeeListWriter.
+ * @version 1.0
+ * @since 2023-11-24
+ * @see AttendeeListWriter
+ */
+public class AttendeeListCSVWriter implements AttendeeListWriter{
+    /**
+     * Writes the column headers to CSV file.
+     * @param fileName Name of the CSV file to write to.
+     */
     public void writeHeader(String fileName) {
         try {
             FileWriter fw = new FileWriter(fileName);
@@ -13,11 +24,18 @@ public class AttendeeListCSVWriter extends AttendeeListWriter{
             fw.close();
         }
         catch(IOException e){
-            System.out.println("Error writing header to file.");
+            System.out.println("[ Error writing header to file. ]");
         }
     }
 
-    public void writeData(String fileName, ArrayList<Dictionary<String, String>> nameAndRoles, Camp c, Filter filter){
+    /**
+     * Writes camp data to CSV file.
+     * @param fileName Name of the CSV file to write to.
+     * @param nameAndRoles List of dictionaries containing participant name and role.
+     * @param camp Camp object containing camp data.
+     * @param filter Filter object containing filter criteria for attendee dictionary.
+     */
+    public void writeData(String fileName, ArrayList<Dictionary<String, String>> nameAndRoles, Camp camp, Filter filter){
         try{
             FileWriter fw = new FileWriter(fileName, true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -27,25 +45,25 @@ public class AttendeeListCSVWriter extends AttendeeListWriter{
             }
             // Prepare withdrawal list
             StringBuilder withdrawalList = new StringBuilder();
-            for (String withdrawal : c.getWithdrawalList()) {
+            for (String withdrawal : camp.getWithdrawalList()) {
                 withdrawalList.append(withdrawal).append(";");
             }
             // Write camp data
             try {
                 String firstParticipant = nameAndRoles.get(0).keys().nextElement();
                 String firstRole = nameAndRoles.get(0).get(firstParticipant);
-                bw.write(c.getName() + "," + DateUtility.dateToString(c.getStartDate()) + "," + DateUtility.dateToString(c.getEndDate()) + "," + DateUtility.dateToString(c.getRegDeadline()) + "," +
-                    c.getUserGroup() + "," + c.getLocation() + "," + c.getTotalSlots() + "," + c.getCampCommSlots() + "," +
-                    "\"" +c.getDescription() + "\"" + "," + c.getStaffIC() + "," + c.getVisibility() + ","  + withdrawalList + "," + firstParticipant + "," + firstRole);
+                bw.write(camp.getName() + "," + DateUtility.dateToString(camp.getStartDate()) + "," + DateUtility.dateToString(camp.getEndDate()) + "," + DateUtility.dateToString(camp.getRegDeadline()) + "," +
+                    camp.getUserGroup() + "," + camp.getLocation() + "," + camp.getTotalSlots() + "," + camp.getCampCommSlots() + "," +
+                    "\"" +camp.getDescription() + "\"" + "," + camp.getStaffIC() + "," + camp.getVisibility() + ","  + withdrawalList + "," + firstParticipant + "," + firstRole);
                 bw.newLine();
             } 
             catch (IndexOutOfBoundsException e) {
-                bw.write(c.getName() + "," + DateUtility.dateToString(c.getStartDate()) + "," + DateUtility.dateToString(c.getEndDate()) + "," + DateUtility.dateToString(c.getRegDeadline()) + "," +
-                    c.getUserGroup() + "," + c.getLocation() + "," + c.getTotalSlots() + "," + c.getCampCommSlots() + "," +
-                    "\"" + c.getDescription() + "\"" + "," + c.getStaffIC() + "," + c.getVisibility() + ","  + withdrawalList + ",," ); // Write empty participant data
+                bw.write(camp.getName() + "," + DateUtility.dateToString(camp.getStartDate()) + "," + DateUtility.dateToString(camp.getEndDate()) + "," + DateUtility.dateToString(camp.getRegDeadline()) + "," +
+                    camp.getUserGroup() + "," + camp.getLocation() + "," + camp.getTotalSlots() + "," + camp.getCampCommSlots() + "," +
+                    "\"" + camp.getDescription() + "\"" + "," + camp.getStaffIC() + "," + camp.getVisibility() + ","  + withdrawalList + ",," ); // Write empty participant data
                 bw.newLine();
             }
-            // Write remaining participant data
+            // Write remaining attendee data
             for (int i=1; i<nameAndRoles.size(); i++) {
                 Dictionary<String, String> nameAndRole = nameAndRoles.get(i);
                 String participantId = nameAndRole.keys().nextElement();
@@ -59,7 +77,7 @@ public class AttendeeListCSVWriter extends AttendeeListWriter{
             fw.close();
         }
         catch(IOException e){
-            System.out.println("Error writing to file.");
+            System.out.println("[ Error writing to file. ]");
         }
     }
 

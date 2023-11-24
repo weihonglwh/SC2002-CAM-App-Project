@@ -1,20 +1,37 @@
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Class to write all camps in the system to a CSV file.
+ * @version 1.0
+ * @since 2023-11-24
+ * @see DataWriter
+ */
 public class CSVCampWriter implements DataWriter{
-    public void performWrite(String file, Storage s) {
-        if (!(s instanceof CampStorage)) {
-            System.out.println("Error: Storage is not a CampStorage.");
+    /**
+     * Writes all camps in the system to a CSV file.
+     * Overwrites existing data in the CSV file.
+     * @param fileName Name of the file to be written to.
+     *                 Should be "camp.csv" by default.
+     * @param storage Storage that contains the camps data to be written to the CSV file.
+     *                Should be a CampStorage object.
+     */
+    public void performWrite(String fileName, Storage storage) {
+        // Check if storage is a CampStorage object
+        if (!(storage instanceof CampStorage)) {
+            System.out.println("[ Error: Storage is not a CampStorage. ]");
             System.exit(4);
         }
         try {
-            String header = CSVReader.getHeader(file);
-            FileWriter fw = new FileWriter(file);
+            String header = CSVReader.getHeader(fileName);
+            FileWriter fw = new FileWriter(fileName);
             BufferedWriter bw = new BufferedWriter(fw);
             // Write the header first
-            bw.write(header);
-            bw.newLine();
-            ArrayList<Camp> campList = s.getData();
+            if (!header.isBlank()) {
+                bw.write(header);
+                bw.newLine();
+            }
+            ArrayList<Camp> campList = storage.getData();
             for (Camp camp : campList) {
                 // Prepare strings for attendees, campComms, and withdrawalList
                 StringBuilder attendeesString = new StringBuilder();
@@ -23,7 +40,7 @@ public class CSVCampWriter implements DataWriter{
                 for (String attendee : camp.getAttendees()) {
                     attendeesString.append(attendee).append(";");
                 }
-                for (String campComm : camp.getCampComms()) {
+                for (String campComm : camp.getCampCommitteeMembers()) {
                     campCommsString.append(campComm).append(";");
                 }
                 for (String withdrawal : camp.getWithdrawalList()) {
@@ -44,7 +61,7 @@ public class CSVCampWriter implements DataWriter{
             fw.close();
         }
         catch (IOException e) {
-            System.out.println("Error: Camp CSV file could not be written.");
+            System.out.println("[ Error: Camp CSV file could not be written. ]");
             System.exit(2);
         }
     }

@@ -2,82 +2,79 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
+/**
+ * CampStorage is a subclass of Storage that stores all the camps in the system.
+ * It contains methods to print all camps, print camps created by a specific staff,
+ * print camps specific to student's faculty, get all camps, get a specific camp,
+ * add a camp, remove a camp, sort camps, and populate data from a CSV file.
+ * @version 1.0
+ * @since 2023-11-24
+ * @see Storage
+ */
 public class CampStorage extends Storage{
+    /**
+     * An ArrayList of Camp objects.
+     */
     private ArrayList<Camp> camps;
 
+    /**
+     * Default constructor for CampStorage.
+     */
     public CampStorage() {
         super();
         camps = new ArrayList<Camp>();
     }
 
+    /**
+     * Prints all camps in the system.
+     */
     // Print all camps
     public void printData() {
         for (Camp c : camps) {
-            System.out.println("-------------------------------------------------------------");
-            System.out.println("Camp Name: " + c.getName());
-            System.out.println("Camp Start Date: " + DateUtility.dateToString(c.getStartDate()));
-            System.out.println("Camp End Date: " + DateUtility.dateToString(c.getEndDate()));
-            System.out.println("Camp Registration Deadline: " + DateUtility.dateToString(c.getRegDeadline()));
-            System.out.println("Camp User Group: " + c.getUserGroup());
-            System.out.println("Camp Location: " + c.getLocation());
-            System.out.println("Remaining Slots: " + c.getRemaindingSlots());
-            System.out.println("Remaining Camp Committee Slots: " + c.getRemaindingSlotsCampComm());
-            System.out.println("Camp Description: " + c.getDescription());
-            System.out.println("Camp Staff In-Charge: " + c.getStaffIC());
-            System.out.println("Camp Visibility: " + c.getVisibility());
-            System.out.println("Camp Withdrawal List: " + c.getWithdrawalList());
-            System.out.println("Camp Attendees: " + c.getAttendees());
-            System.out.println("Camp Committee Members: " + c.getCampComms());
+            UiPrinter.printCampInformation(c);
         }
     }
 
+    /**
+     * Prints camps created by a specific staff.
+     * @param staff StaffAccount object.
+     */
     // Print camps created by a specific staff
     public void printData(StaffAccount staff) {
         for (Camp campStaff: camps){
             if (campStaff.getStaffIC().equals(staff.getUserId())){
-                System.out.println("-------------------------------------------------------------");
-                System.out.println("Camp Name: " + campStaff.getName());
-                System.out.println("Camp Start Date: " + DateUtility.dateToString(campStaff.getStartDate()));
-                System.out.println("Camp End Date: " + DateUtility.dateToString(campStaff.getEndDate()));
-                System.out.println("Camp Registration Deadline: "  + DateUtility.dateToString(campStaff.getRegDeadline()));
-                System.out.println("Camp User group: " + campStaff.getUserGroup());
-                System.out.println("Camp Location: " + campStaff.getLocation());
-                System.out.println("Remaining slots: " + campStaff.getRemaindingSlots());
-                System.out.println("Remaining Camp Committee Slots: " + campStaff.getRemaindingSlotsCampComm());
-                System.out.println("Camp Description: " + campStaff.getDescription());
-                System.out.println("Camp Staff In-Charge: " + campStaff.getStaffIC());
-                System.out.println("Camp Visibility: " + campStaff.getVisibility());
-                System.out.println("Camp Withdrawal List: "  + campStaff.getWithdrawalList());
-                System.out.println("Camp Attendees: " + campStaff.getAttendees());
-                System.out.println("Camp Committee Members: " + campStaff.getCampComms());
+                UiPrinter.printCampInformation(campStaff);
             }
         }
     }
 
-    // Print camps specific to student's faculty
+    /**
+     * Prints camps specific to student's faculty or the whole of NTU.
+     * @param student StudentAccount object.
+     */
     public void printData(StudentAccount student) {
 
         for (Camp campStudent: camps){
             if((campStudent.getUserGroup().equals(student.getFaculty()) || campStudent.getUserGroup().equals("NTU"))
                     && campStudent.getVisibility()){
-                System.out.println("-------------------------------------------------------------");
-                System.out.println("Camp Name: "  + campStudent.getName());
-                System.out.println("Camp Start Date: " + DateUtility.dateToString(campStudent.getStartDate()));
-                System.out.println("Camp End Date: " + DateUtility.dateToString(campStudent.getEndDate()));
-                System.out.println("Camp Registration Deadline: " + DateUtility.dateToString(campStudent.getRegDeadline()));
-                System.out.println("Camp User Group: " + campStudent.getUserGroup());
-                System.out.println("Camp Location: " + campStudent.getLocation());
-                System.out.println("Remaining Slots: " + campStudent.getRemaindingSlots());
-                System.out.println("Remaining Camp Committee Slots " + campStudent.getRemaindingSlotsCampComm());
-                System.out.println("Camp Description: " + campStudent.getDescription());
+                UiPrinter.printCampInfoForStudents(campStudent);
             }
         }
     }
 
+    /**
+     * Gets all camps in the system.
+     * @return ArrayList of Camp objects.
+     */
     public ArrayList<Camp> getData() {
         return camps;
     }
 
+    /**
+     * Gets a specific camp.
+     * @param s Camp name.
+     * @return Camp object.
+     */
     public Camp getData(String s) {
         for (Camp c : camps) {
             if (c.getName().equals(s)) {
@@ -87,31 +84,46 @@ public class CampStorage extends Storage{
         return null;
     }
 
+    /**
+     * Adds a camp to the system.
+     * @param o Camp object.
+     */
     public void addItem(Object o) {
         if (o instanceof Camp){
             camps.add((Camp)o);
             sortCamps();
         }
         else{
-            System.out.println("Invalid object type");
+            System.out.println("[ Invalid object type ]");
             System.exit(0);
         }
     }
 
+    /**
+     * Removes a camp from the system.
+     * @param o Camp object.
+     */
     public void removeItem(Object o) {
         if (o instanceof Camp){
             camps.remove((Camp)o);
         }
         else{
-            System.out.println("Invalid object type");
+            System.out.println("[ Invalid object type ]");
             System.exit(0);
         }
     }
 
+    /**
+     * Sorts camps by name.
+     */
     public void sortCamps() {
         Collections.sort(camps);
     }
 
+    /**
+     * Populates camps from CSV file.
+     * @param reader CSVReader object.
+     */
     public void populateData(CSVReader reader) {
         /*
             Col 0: Name
@@ -199,7 +211,7 @@ public class CampStorage extends Storage{
             }
         }
         catch (Exception e) {
-            System.out.println("Error: Camp CSV file may be missing an entry.");
+            System.out.println("[ Error: Camp CSV file may be missing an entry or contains invalid entries. ]");
             System.exit(3);
         }
     }

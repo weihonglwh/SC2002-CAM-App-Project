@@ -1,100 +1,149 @@
 import java.util.ArrayList;
 
+/**
+ * EnquiryStorage is a subclass of Storage that stores Enquiry objects.
+ * It contains methods to print all enquiries, print enquiries by sender, and populate data from a CSV file.
+ * @version 1.0
+ * @since 2023-11-24
+ * @see Storage
+ */
 public class EnquiryStorage extends Storage {
+    /**
+     * The list of enquiries.
+     */
     private ArrayList<Enquiry> enquiries;
-    
+
+    /**
+     * Constructor for EnquiryStorage class.
+     */
     public EnquiryStorage() {
         super();
         enquiries = new ArrayList<Enquiry>();
     }
 
+    /**
+     * Prints all enquiries for a certain camp.
+     * @param campName The camp name for the enquiry.
+     */
     public void printAllData(String campName) {
-        boolean noEquiries = true;
+        boolean noEnquiries = true;
         for (Enquiry e : enquiries) {
             if (e.getCampName().equals(campName)) {
-                noEquiries = false;
-                System.out.println("the sender for this enquiry is " + "\n" + e.getSender());
-                System.out.println("The enquiry id for this enquiry is " + "\n" + e.getEnquiryId());
-                System.out.println("The enquiry message for this enquiry is " + "\n" + e.getMessage());
+                noEnquiries = false;
+                System.out.println("[ The sender for this enquiry is " + e.getSender()+ " ]");
+                System.out.println("[ The enquiry id for this enquiry is "+ e.getEnquiryId()+ " ]");
+                System.out.println("[ The enquiry message for this enquiry is " + e.getMessage()+ " ]");
                 if (e.getResponse() == null) {
-                    System.out.println("There is no response for this enquiry");
+                    System.out.println("[ There is no response for this enquiry ]");
                 } else {
-                    System.out.println("The response for this enquiry is " + "\n" + e.getResponse());
+                    System.out.println("[ The response for this enquiry is " + e.getResponse()+ " ]");
                 }
                 if (e.getResponder() == null) {
-                    System.out.println("There is no responder for this enquiry");
+                    System.out.println("[ There is no responder for this enquiry ]");
                 } else {
-                    System.out.println("The responder for this enquiry is " + "\n" + e.getResponder());
-                }
-                System.out.println("");
-            }
-        }
-
-        if (noEquiries){
-            System.out.println("There are no enquiries for this camp");
-        }
-    }
-
-    public void printSenderData(String sender) {
-        boolean noEquiries = true;
-        for (Enquiry e : enquiries) {
-            if(e.getSender().equals(sender)){
-                noEquiries = false;
-                System.out.println("The sender for this enquiry is " + e.getSender());
-                System.out.println("The enquiry id for this enquiry is " + e.getEnquiryId());
-                System.out.println("The enquiry message for this enquiry is " + e.getMessage());
-                if (e.getResponse() == null) {
-                    System.out.println("There is no response for this enquiry");
-                } else {
-                    System.out.println("The response for this enquiry is " + e.getResponse());
-                }
-                if (e.getResponder() == null) {
-                    System.out.println("There is no responder for this enquiry");
-                } else {
-                    System.out.println("The responder for this enquiry is " + e.getResponder());
+                    System.out.println("[ The responder for this enquiry is " + e.getResponder()+ " ]");
                 }
                 System.out.println();
             }
         }
 
-        if (noEquiries) {
-            System.out.println("You did not make any enquiry");
+        if (noEnquiries){
+            System.out.println("[ There are no enquiries for this camp ]");
         }
     }
-    
+
+    /**
+     * Prints all enquiries for a certain sender.
+     * @param sender The name of the sender.
+     */
+    public void printSenderData(String sender) {
+        boolean noEnquiries = true;
+        for (Enquiry e : enquiries) {
+            if(e.getSender().equals(sender)){
+                noEnquiries = false;
+                System.out.println("[ The sender for this enquiry is " + e.getSender() + " ]");
+                System.out.println("[ The enquiry id for this enquiry is " + e.getEnquiryId()+ " ]");
+                System.out.println("[ The enquiry message for this enquiry is " + e.getMessage()+ " ]");
+                if (e.getResponse() == null) {
+                    System.out.println("[ There is no response for this enquiry ]");
+                } else {
+                    System.out.println("[ The response for this enquiry is " + e.getResponse()+ " ]");
+                }
+                if (e.getResponder() == null) {
+                    System.out.println("[ There is no responder for this enquiry ]");
+                } else {
+                    System.out.println("[ The responder for this enquiry is " + e.getResponder()+ " ]");
+                }
+                System.out.println();
+            }
+        }
+
+        if (noEnquiries) {
+            System.out.println("[ You did not make any enquiry ]");
+        }
+    }
+
+    /**
+     * Gets the list of enquiries.
+     * @return The list of enquiries.
+     */
     public ArrayList getData() {
         return enquiries;
     }
 
+    /**
+     * Gets the enquiry object with the specified enquiry ID.
+     * @param id The enquiry ID of the enquiry.
+     */
     public Enquiry getData(String id) {
+        int idInt;
+        try {
+            idInt = Integer.parseInt(id);
+        }
+        catch (NumberFormatException e) {
+            System.out.println("[ Error: Enquiry ID must be an integer. ]");
+            return null;
+        }
         for (Enquiry e : enquiries) {
-            if (e.getEnquiryId() == Integer.parseInt(id)) {
+            if (e.getEnquiryId() == idInt) {
                 return e;
             }
         }
         return null;
     }
-    
+
+    /**
+     * Adds an enquiry to the list of enquiries.
+     * @param o The enquiry to be added.
+     */
     public void addItem(Object o) {
         if (o instanceof Enquiry){
             enquiries.add((Enquiry)o);
         }
         else{
-            System.out.println("Invalid object type");
+            System.out.println("[ Invalid object type ]");
             System.exit(0);
         }
     }
 
+    /**
+     * Deletes an enquiry from the list of enquiries.
+     * @param o The enquiry to be deleted.
+     */
     public void deleteItem(Object o) {
         if (o instanceof Enquiry){
             enquiries.remove((Enquiry)o);
         }
         else{
-            System.out.println("Invalid object type");
+            System.out.println("[ Invalid object type ]");
             System.exit(0);
         }
     }
 
+    /**
+     * Populates the list of enquiries from a CSV file.
+     * @param reader The CSVReader object to read the CSV file.
+     */
     public void populateData(CSVReader reader) {
         ArrayList<String> enquiryData = reader.performRead("enquiry.csv");
         try {
@@ -118,7 +167,7 @@ public class EnquiryStorage extends Storage {
             }
         }
         catch (Exception e) {
-            System.out.println("Error: Enquiry CSV file may be missing an entry.");
+            System.out.println("[ Error: Enquiry CSV file may be missing an entry. ]");
             System.exit(3);
         }
     }

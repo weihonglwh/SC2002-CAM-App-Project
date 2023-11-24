@@ -1,26 +1,36 @@
 import java.util.ArrayList;
 
+/**
+ * StaffStorage is a subclass of Storage that stores StaffAccount objects.
+ * It contains methods to get data, get a specific object, add items, and populate data from a CSV file.
+ * @version 1.0
+ * @since 2023-11-24
+ * @see Storage
+ */
 public class StaffStorage extends Storage {
+    /**
+     * The list of staffs.
+     */
     private ArrayList<StaffAccount> staffs;
 
+    /**
+     * Constructor for StaffStorage class.
+     */
     public StaffStorage() {
         super();
         staffs = new ArrayList<StaffAccount>();
     }
 
-    public void printData() {
-        for (StaffAccount s : staffs) {
-            System.out.println("The name of the staff is " + s.getName());
-            System.out.println("The username of the staff is " + s.getUsername());
-            System.out.println("The password of the staff is " + s.getPassword());
-            System.out.println("The faculty is " + s.getFaculty());
-        }
-    }
-
+    /**
+     * To get the list of staffs.
+     */
     public ArrayList getData() {
         return staffs;
     }
 
+    /**
+     * To get details of a specific staff.
+     */
     public StaffAccount getData(String s) {
         for (StaffAccount s1 : staffs) {
             if (s1.getUsername().equals(s)) {
@@ -30,6 +40,9 @@ public class StaffStorage extends Storage {
         return null;
     }
 
+    /**
+     * To add a staff to the list of staff.
+     */
     public void addItem(Object o) {
         if (o instanceof StaffAccount)
         {
@@ -37,12 +50,15 @@ public class StaffStorage extends Storage {
         }
         else
         {
-            System.out.println("Invalid object type");
+            System.out.println("[ Invalid object type ]");
             System.exit(0);
         }
 
     }
 
+    /**
+     * To populate data from a CSV file.
+     */
     public void populateData(CSVReader reader) {
         ArrayList<String> staffData = reader.performRead("staff.csv");
         try {
@@ -52,7 +68,7 @@ public class StaffStorage extends Storage {
                 String name = staffDetails[0].trim();
                 // Check if email is valid
                 if (!staffDetails[1].trim().contains("@")) {
-                    System.out.println("Error: Staff CSV file contains invalid email.");
+                    System.out.println("[ Error: Staff CSV file contains invalid email. ]");
                     System.exit(4);
                 }
                 String userId = staffDetails[1].trim().split("@")[0];
@@ -62,7 +78,7 @@ public class StaffStorage extends Storage {
             }
         }
         catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Error: Staff CSV file may be missing an entry.");
+            System.out.println("[ Error: Staff CSV file may be missing an entry. ]");
             System.exit(3);
         }
     }

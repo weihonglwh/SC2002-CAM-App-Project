@@ -1,27 +1,39 @@
 import java.util.ArrayList;
 
+/**
+ * StudentStorage is a subclass of Storage that stores StudentAccount objects.
+ * It contains methods to get data, get a specific object, add items, and populate data from a CSV file.
+ * @version 1.0
+ * @since 2023-11-24
+ * @see Storage
+ */
 public class StudentStorage extends Storage {
+    /**
+     * The list of students.
+     */
     private ArrayList<StudentAccount> students;
-    
+
+    /**
+     * Constructor for StudentStorage class.
+     */
     public StudentStorage() {
         super();
         students = new ArrayList<StudentAccount>();
     }
 
-    public void printData() {
-        for (StudentAccount s : students) {
-            System.out.println("The name of the student is " + s.getName());
-            System.out.println("The username of the student is " + s.getUserId());
-            System.out.println("The password of the student is " + s.getPassword());
-            System.out.println("The faculty is " + s.getFaculty());
-        }
-    }
-
-
+    /**
+     * To get the list of students.
+     * @return The list of students.
+     */
     public ArrayList getData() {
         return students;
     }
-    
+
+    /**
+     * To get a specific student.
+     * @param s The user ID of the student.
+     * @return The StudentAccount object.
+     */
     public StudentAccount getData(String s) {
         for (StudentAccount st : students) {
             if (st.getUserId().equals(s)) {
@@ -30,19 +42,27 @@ public class StudentStorage extends Storage {
         }
         return null;
     }
-    
-    public void addItem(Object o) {
-        if (o instanceof StudentAccount)
+
+    /**
+     * To add a student to the list.
+     * @param object The StudentAccount object.
+     */
+    public void addItem(Object object) {
+        if (object instanceof StudentAccount)
         {
-            students.add((StudentAccount)o);
+            students.add((StudentAccount)object);
         }
         else
         {
-            System.out.println("Invalid object type");
+            System.out.println("[ Invalid object type ]");
             System.exit(0);
         }
     }
 
+    /**
+     * To populate data from a CSV file.
+     * @param reader The CSVReader object.
+     */
     public void populateData(CSVReader reader) {
         ArrayList<String> studentData = reader.performRead("student.csv");
         try {
@@ -52,7 +72,7 @@ public class StudentStorage extends Storage {
                 String name = studentDetails[0].trim();
                 // Check if email is valid
                 if (!studentDetails[1].trim().contains("@")) {
-                    System.out.println("Error: Student CSV file contains invalid email.");
+                    System.out.println("[ Error: Student CSV file contains invalid email. ]");
                     System.exit(4);
                 }
                 String userId = studentDetails[1].trim().split("@")[0];
@@ -70,8 +90,8 @@ public class StudentStorage extends Storage {
                 this.addItem(new StudentAccount(name, userId, password, faculty, points, campCommOf, campsAttending));
             }
         }
-        catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Error: Student CSV file may be missing an entry.");
+        catch (Exception e) {
+            System.out.println("[ Error: Student CSV file may be missing an entry or contain invalid entries. ]");
             System.exit(3);
         }
     }
