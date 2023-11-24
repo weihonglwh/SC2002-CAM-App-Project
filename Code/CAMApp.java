@@ -518,7 +518,7 @@ public class CAMApp {
                                         System.out.print(">> ");
                                         String performanceReportFileName = sc.nextLine();
                                         performanceReportFileName = performanceReportFileName + ".txt";
-                                        staffAccount.generatePerformanceReport(campStorage, studentStorage, performanceReportFileName);
+                                        staffAccount.generatePerformanceReport(campStorage, studentStorage, performanceReportFileName, new PerformanceReportTXTWriter());
                                         break;
                                     case 13: //Generate list of attendees or camp committee either in txt or csv format
                                         System.out.println("> Would you like to generate list of attendees or camp committee <");

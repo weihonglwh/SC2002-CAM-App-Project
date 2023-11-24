@@ -88,9 +88,9 @@ public class StaffAccount extends UserAccount {
      * @param campStorage The camp storage.
      * @param studentStorage The student storage.
      * @param fileName The file name of the performance report.
+     * @param writer The writer for the performance report.
      */
-    public void generatePerformanceReport(CampStorage campStorage, StudentStorage studentStorage, String fileName) {
-        PerformanceReportTXTWriter writer = new PerformanceReportTXTWriter();
+    public void generatePerformanceReport(CampStorage campStorage, StudentStorage studentStorage, String fileName, PerformanceReportWriter writer) {
         if (FileExistenceChecker.fileExists(fileName)) {
             System.out.println("[ File already exists. Please choose another file name. ]");
             return;
