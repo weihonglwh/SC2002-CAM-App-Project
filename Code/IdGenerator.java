@@ -43,6 +43,10 @@ public class IdGenerator {
             }
             return Integer.parseInt(id);
         }
-        else return -1;
+        // If the storage is not an instance of EnquiryStorage or SuggestionStorage, return -1
+        else {
+            System.out.println("[ Invalid storage type used for IdGenerator ]");
+            return -1;
+        }
     }
 }
