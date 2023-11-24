@@ -912,10 +912,12 @@ public class CAMApp {
                                                 System.out.println("[ What is your new enquiry (no blanks)? ]");
                                                 String newEnq = sc.nextLine();
                                                 if(newEnq.isBlank()) {
-                                                    System.out.println("[ No enquiry edited. ]"); //Error handling
+                                                    System.out.println("[ No enquiry edited. (Blanks found) ]"); //Error handling
                                                     break;
                                                 }
-                                                editEnq.setMessage(newEnq);
+                                                else {
+                                                    studentAccount.editEnquiry(editEnq, newEnq);
+                                                }
                                                 System.out.println("[ New enquiry has been saved. ]");
                                             }
                                             else {
@@ -1008,13 +1010,14 @@ public class CAMApp {
                                                     case 2:
                                                         System.out.println("> Please enter the suggestion for " + studentCampCommObj.getName() + " (no blanks) <");
                                                         System.out.print(">> ");
-                                                        String userSuggestion = sc.nextLine();
-                                                        if(userSuggestion.isBlank()) {
+                                                        String userSuggestionMsg = sc.nextLine();
+                                                        if(userSuggestionMsg.isBlank()) {
                                                             System.out.println("[ No suggestion created (blanks found) ]"); //Error handling
                                                             break;
                                                         }
                                                         // add in the suggestion ID
-                                                        suggestionStorage.addItem(new Suggestion(studentAccount.getUserId(), userSuggestion, IdGenerator.generateID(suggestionStorage), studentAccount.getCampCommOf()));
+                                                        Suggestion userSuggestion = studentAccount.createSuggestion(userSuggestionMsg, IdGenerator.generateID(suggestionStorage));
+                                                        suggestionStorage.addItem(userSuggestion);
                                                         studentAccount.addPoints();
                                                         System.out.println(("[ Suggestion created successfully. ]"));
                                                         break;
@@ -1063,7 +1066,13 @@ public class CAMApp {
                                                                 System.out.println("> What is your new suggestion? <");
                                                                 System.out.print(">> ");
                                                                 String newSuggestion = sc.nextLine();
-                                                                editSuggestion.setSuggestion(newSuggestion);
+                                                                if(newSuggestion.isBlank()) {
+                                                                    System.out.println("[ No suggestion edited (blanks found) ]"); //Error handling
+                                                                    break;
+                                                                }
+                                                                else {
+                                                                    studentAccount.editSuggestion(editSuggestion, newSuggestion);
+                                                                }
                                                                 System.out.println("[ New suggestion has been saved. ]");
                                                             }
                                                         }

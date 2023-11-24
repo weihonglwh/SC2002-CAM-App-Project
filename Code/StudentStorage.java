@@ -65,6 +65,11 @@ public class StudentStorage implements Storage {
      */
     public void populateData(CSVReader reader) {
         ArrayList<String> studentData = reader.performRead("student.csv");
+        // Check if at least an entry exists
+        if (studentData.isEmpty()) {
+            System.out.println("[ Error: Student CSV file is empty. ]");
+            System.exit(2);
+        }
         try {
             for (String student : studentData) { // Iterate through each line
                 String[] studentDetails = student.split(",", -1);

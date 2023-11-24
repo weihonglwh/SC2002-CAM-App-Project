@@ -61,6 +61,11 @@ public class StaffStorage implements Storage {
      */
     public void populateData(CSVReader reader) {
         ArrayList<String> staffData = reader.performRead("staff.csv");
+        // Check if there is any data
+        if (staffData.isEmpty()) {
+            System.out.println("[ Error: Staff CSV file is empty. ]");
+            System.exit(2);
+        }
         try {
             for (String staff : staffData) { // Iterate through each line
                 String[] staffDetails = staff.split(",");

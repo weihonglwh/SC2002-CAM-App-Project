@@ -107,20 +107,7 @@ public class StudentAccount extends UserAccount {
      * To print the profile of the student.
      */
     public void printProfile(){
-        System.out.println("[ Name: " + super. getName()+ " ]");
-        System.out.println("[ UserID: " + super.getUserId()+ " ]");
-        System.out.println("[ Faculty: " + super.getFaculty()+ " ]");
-        if(!campCommOf.isEmpty())
-            System.out.println("[ Points as Camp-Comm: " + points + "pts ]");
-        System.out.println("-----------------------------------------------");
-        System.out.println("|           List of registered camps          |");
-        System.out.printf("| %-20s | %-20s |%n", "Camp Name", "Role");
-        if(!campCommOf.isEmpty())
-            System.out.printf("| %-20s | %-20s |%n", campCommOf, "Camp Committee");
-        for (String tarCamp: campsRegistered)
-            System.out.printf("| %-20s | %-20s |%n", tarCamp, "Participant");
-        System.out.println("-----------------------------------------------");
-
+        UiPrinter.printStudentProfile(this);
     }
 
     /**
@@ -132,5 +119,36 @@ public class StudentAccount extends UserAccount {
      */
     public Enquiry createEnquiry(String enquiryMessage, String enquiryCamp, int enquiryID) {
         return new Enquiry(this.getUserId(), enquiryMessage, enquiryCamp, enquiryID);
+    }
+
+    /**
+     * Creates a new suggestion object.
+     * @param suggestion The suggestion proposed by the suggester.
+     * @param suggestionID The suggestion ID of the suggestion.
+     * @return The suggestion object.
+     */
+    public Suggestion createSuggestion(String suggestion, int suggestionID) {
+        if (campCommOf.isEmpty()) {
+            System.out.println("[ You are not a camp committee of any camp. ]");
+        }
+        return new Suggestion(getUserId(), suggestion, suggestionID, campCommOf);
+    }
+
+    /**
+     * Method to edit a suggestion
+     * @param suggestionObject The suggestion object.
+     * @param suggestion The new suggestion message.
+     */
+    public void editSuggestion(Suggestion suggestionObject, String suggestion){
+        suggestionObject.setSuggestion(suggestion);
+    }
+
+    /**
+     * Method to edit an enquiry
+     * @param enquiryObject The enquiry object.
+     * @param enquiryMessage The new enquiry message.
+     */
+    public void editEnquiry(Enquiry enquiryObject, String enquiryMessage){
+        enquiryObject.setMessage(enquiryMessage);
     }
 }

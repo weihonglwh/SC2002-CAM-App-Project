@@ -140,4 +140,23 @@ public class UiPrinter {
         System.out.println();
     }
 
+    /**
+     * This method is used to print the profile of a student
+     * @param student The student in which the profile will be printed.
+     */
+    public static void printStudentProfile(StudentAccount student){
+        System.out.println("[ Name: " + student.getName()+ " ]");
+        System.out.println("[ UserID: " + student.getUserId()+ " ]");
+        System.out.println("[ Faculty: " + student.getFaculty()+ " ]");
+        if(!student.getCampCommOf().isEmpty())
+            System.out.println("[ Points as Camp-Comm: " + student.getPoints() + "pts ]");
+        System.out.println("-----------------------------------------------");
+        System.out.println("|           List of registered camps          |");
+        System.out.printf("| %-20s | %-20s |%n", "Camp Name", "Role");
+        if(!student.getCampCommOf().isEmpty())
+            System.out.printf("| %-20s | %-20s |%n", student.getCampCommOf(), "Camp Committee");
+        for (String tarCamp: student.getCampsRegistered())
+            System.out.printf("| %-20s | %-20s |%n", tarCamp, "Participant");
+        System.out.println("-----------------------------------------------");
+    }
 }
