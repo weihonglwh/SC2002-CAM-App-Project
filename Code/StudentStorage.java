@@ -25,7 +25,7 @@ public class StudentStorage implements Storage {
      * To get the list of students.
      * @return The list of students.
      */
-    public ArrayList getData() {
+    public ArrayList<StudentAccount> getData() {
         return students;
     }
 

@@ -24,7 +24,7 @@ public class StaffStorage implements Storage {
     /**
      * To get the list of staffs.
      */
-    public ArrayList getData() {
+    public ArrayList<StaffAccount> getData() {
         return staffs;
     }
 

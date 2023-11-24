@@ -71,7 +71,7 @@ public class CampStorage implements Storage{
     }
 
     /**
-     * Gets a specific camp.
+     * Gets a specific camp using the camp name.
      * @param s Camp name.
      * @return Camp object.
      */

@@ -56,7 +56,7 @@ public class SuggestionStorage implements Storage {
      * To get the list of suggestions.
      * @return The list of suggestions.
      */
-    public ArrayList getData() {
+    public ArrayList<Suggestion> getData() {
         return suggestions;
     }
 

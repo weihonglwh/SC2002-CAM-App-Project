@@ -87,7 +87,7 @@ public class EnquiryStorage implements Storage {
      * Gets the list of enquiries.
      * @return The list of enquiries.
      */
-    public ArrayList getData() {
+    public ArrayList<Enquiry> getData() {
         return enquiries;
     }
 
