@@ -650,9 +650,6 @@ public class CAMApp {
                         if(Objects.isNull(studentAccount)|| !studentAccount.getPassword().equals(studentPassword))
                         {
                             int userTryAgain = 0;
-                            if(sc.hasNextInt()){
-                                userTryAgain = sc.nextInt();
-                            }
                             while(userTryAgain != 1 && userTryAgain != 2) {
                                 System.out.println("[ Wrong username or password ]");
                                 System.out.println("1) Try again");
