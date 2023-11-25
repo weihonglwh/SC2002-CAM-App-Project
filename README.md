@@ -22,7 +22,7 @@ It is recommended to not tamper with the files manually with the exception of `s
 Refer to the table for the required files:
 | File | Description | Required Entries |
 | - | - | - |
-| camp.csv | This file consists of all camps in the system. It is recommended to not tamper with the file manually. | Only the header is required.|
+| camp.csv | This file consists of all camps in the system. | Only the header is required.|
 | enquiry.csv | This file consists of all enquiries for camps in the system.  | Only the header is required.|
 | student.csv | This file consists of all student accounts in the system. | **Minimally 1 account is required alongside the header.**|
 | staff.csv | This file consists of all staff accounts in the system. | **Minimally 1 account is required alongside the header.**|
