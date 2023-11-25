@@ -5,9 +5,12 @@ This is a project for the NTU module SC2002 Object Oriented Design & Programming
 
 It involves creating a Camp Application and Management System (CAMs) through the use of Object Oriented Programming conforming to the SOLID design principles.
 
+Documentation of the code can be found in the [Javadoc folder](https://github.com/weihonglwh/SC2002-CAM-App-Project/tree/main/Javadoc).
+Open the `index.html` file after downloading to view an interactive Javadoc HTML webpage.
+
 An [UML class diagram](https://github.com/weihonglwh/SC2002-CAM-App-Project/blob/main/class-diagram-final.jpg) is available for reference.
  
- The [SC2002 Assignment 2023S1 PDF file](https://github.com/weihonglwh/SC2002-CAM-App-Project/blob/main/SC2002%20Assignment%202023S1.pdf) consists of the full requirements for the project.
+The [SC2002 Assignment 2023S1 PDF file](https://github.com/weihonglwh/SC2002-CAM-App-Project/blob/main/SC2002%20Assignment%202023S1.pdf) consists of the full requirements for the project.
 
 Java is the language of choice for this project.
 
