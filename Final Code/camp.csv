@@ -1,9 +1,1 @@
 Name,startDate,endDate,regDeadline,userGroup,location,totalSlots,campCommSlots,description,staffIC,attendees,campComms,visibility,withdrawallist
-ADM,10/12/2023,12/12/2023,01/12/2023,ADM,ADM building,50,10,"ADM Camp",OURIN,,,1,
-EEE,10/12/2023,12/12/2023,01/12/2023,EEE,EEE building,50,10,"EEE camp",UPAM,,,1,
-past deadline,29/12/2023,31/12/2023,25/11/2022,NTU,NTU,30,5,"This camp has a expired registration deadline",HUKUMAR,,,1,
-SCSE,10/12/2023,12/12/2023,01/12/2023,SCSE,SCSE,50,10,"SCSE CAMP",HUKUMAR,,CT113;,1,
-small camp,23/12/2023,25/12/2023,10/12/2023,NTU,NTU,2,1,"this is a small camp",ARVI,CT113;,DL007;,1,
-Sports,23/12/2023,25/12/2023,10/12/2023,NTU,Field,50,5,"NTU Sports Camp",HUKUMAR,SL22;AKY013;,LE51;ELI34;,1,
-Staff only,10/12/2023,12/12/2023,01/12/2023,NTU,Staff Office,20,5,"Staff only camp",OURIN,,,0,
-UOC,23/12/2023,25/12/2023,10/12/2023,NTU,NTU,50,10,"UOC Camp",UPAM,,,1,
