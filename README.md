@@ -31,6 +31,6 @@ Refer to the table for the required files:
 ## Usage
 Please see [preconditions](#Preconditions) prior to running the application to avoid issues.
 
-A JDK is required to compile the source files.
+A JDK is required to compile the source files and run the binaries.
 
 Upon compilation, navigate into the folder containing the `.class` files and execute the `java CAMApp` command to run the program.
