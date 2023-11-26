@@ -85,6 +85,7 @@ public class CAMApp {
                                 case 1:
                                     break;
                                 case 2:
+                                // terminate while loop
                                     logInSuccessfully = true;
                                     break;
                             }
@@ -97,6 +98,7 @@ public class CAMApp {
                             int staffChoice = 0;
                             System.out.println("[ Welcome " + staffAccount.getName() + "! ]");
                             while(staffChoice != 15) {
+                                staffChoice = 0;
                                 UiPrinter.printStaffMenu();
                                 System.out.print(">> ");
                                 if(sc.hasNextInt()){
@@ -262,6 +264,7 @@ public class CAMApp {
                                             if (editCampObj.getStaffIC().equals(staffAccount.getUserId())) {
                                                 int staffEditChoice = 0;
                                                 while (staffEditChoice != 7) {
+                                                    staffEditChoice = 0;
                                                     UiPrinter.printStaffEditMenu();
                                                     System.out.print(">> ");
                                                     if(sc.hasNextInt()){
@@ -705,7 +708,7 @@ public class CAMApp {
                                 sc.nextLine();
                             }
 
-                            switch ((userTryAgain)){
+                            switch (userTryAgain){
                                 case 1:
                                     break;
                                 case 2:
@@ -722,6 +725,7 @@ public class CAMApp {
                             System.out.println("[ Welcome " + studentAccount.getName() + "! ]");
                             while(studentChoice != 13)
                             {
+                                studentChoice = 0;
                                 UiPrinter.printStudentMenu();
                                 System.out.print(">> ");
                                 if(sc.hasNextInt()){
@@ -1083,6 +1087,7 @@ public class CAMApp {
                                             }
                                             int studentCampCommChoice = 0;
                                             while(studentCampCommChoice != 10) {
+                                                studentCampCommChoice = 0;
                                                 UiPrinter.printCampCommitteeMenu();
                                                 System.out.print(">> ");
                                                 if(sc.hasNextInt()){
@@ -1120,7 +1125,7 @@ public class CAMApp {
                                                         break;
                                                     // 4) Edit suggestion
                                                     case 4:
-                                                        System.out.println("> Which suggestion would you like to edit? Enter your suggestionID (no blanks <)");
+                                                        System.out.println("> Which suggestion would you like to edit? Enter your suggestionID (no blanks) <");
                                                         System.out.print(">> ");
                                                         String userEditSuggestion = sc.nextLine();
                                                         if(userEditSuggestion.isBlank()) {

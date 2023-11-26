@@ -62,8 +62,8 @@ public class EnquiryStorage implements Storage {
             if(e.getSender().equals(sender)){
                 noEnquiries = false;
                 System.out.println("[ Enquiry ID " + e.getEnquiryId()+ " ]");
-                System.out.println(" Enquiry Sender: " + e.getSender() + " ]");
-                System.out.println(" Enquiry Message: " + e.getMessage()+ " ]");
+                System.out.println(" Enquiry Sender: " + e.getSender());
+                System.out.println(" Enquiry Message: " + e.getMessage());
                 if (e.getResponse() == null) {
                     System.out.println(" Enquiry Response: None");
                 } else {
